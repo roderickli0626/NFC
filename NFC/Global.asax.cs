@@ -23,7 +23,7 @@ namespace NFC
             var context = HttpContext.Current;
             if (context?.Items.Contains("DBContext") == false)
             {
-                context.Items["DBContext"] = new MappingDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["MonsterConnectionString"].ConnectionString);
+                context.Items["DBContext"] = new MappingDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["NFCConnectionString"].ConnectionString);
             }
         }
 

@@ -1,1 +1,57 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Mapping">
+  <DataContextMoniker Name="/MappingDataContext" />
+  <nestedChildShapes>
+    <classShape Id="0cda3132-c859-4e55-ae10-e0d8bedfa26e" absoluteBounds="1.5, 3.125, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/MappingDataContext/Admin" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c1a6220b-f007-4bc8-8bbc-88791643b6cf" absoluteBounds="1.5150000000000001, 3.585, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7909fb11-f42c-4e57-b536-e39b6a563ed9" absoluteBounds="1.5, 5.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/MappingDataContext/PlaceAccess" />
+      <nestedChildShapes>
+        <elementListCompartment Id="45d537b2-e888-4cf8-b121-798d5fcf6399" absoluteBounds="1.5150000000000001, 5.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="20401f13-a88d-4217-abe4-2ed8c8a34d20" absoluteBounds="5.875, 1.125, 2, 1.3862939453125">
+      <DataClassMoniker Name="/MappingDataContext/Place" />
+      <nestedChildShapes>
+        <elementListCompartment Id="69511a73-ce6c-42e1-9618-fc041d9f886d" absoluteBounds="5.89, 1.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.59375 : 2.5112939453125); (6.59375 : 6.83579752604167); (3.5 : 6.83579752604167)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MappingDataContext/Place/Place_PlaceAccess" />
+      <nodes>
+        <classShapeMoniker Id="20401f13-a88d-4217-abe4-2ed8c8a34d20" />
+        <classShapeMoniker Id="7909fb11-f42c-4e57-b536-e39b6a563ed9" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="d26acb76-3772-4dd5-b69e-f2c5c109a5f4" absoluteBounds="7.625, 3.125, 2, 1.9631982421875">
+      <DataClassMoniker Name="/MappingDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cba0612f-3524-4281-bcaf-f5b53267884f" absoluteBounds="7.64, 3.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.625 : 5.0881982421875); (8.625 : 6.13664626302083); (6.67708333333333 : 6.13664626302083 : JumpStart); (6.51041666666667 : 6.13664626302083 : JumpEnd); (3.5 : 6.13664626302083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MappingDataContext/User/User_PlaceAccess" />
+      <nodes>
+        <classShapeMoniker Id="d26acb76-3772-4dd5-b69e-f2c5c109a5f4" />
+        <classShapeMoniker Id="7909fb11-f42c-4e57-b536-e39b6a563ed9" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="122e4dcb-9750-4b02-8b4c-4aa34157b8db" absoluteBounds="1.5, 0.625, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/MappingDataContext/AccessLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="feaf7542-c3b0-42b3-89da-c8c11f9971b0" absoluteBounds="1.5150000000000001, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.78125 : 3.125); (8.78125 : 0.84375); (3.5 : 0.84375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MappingDataContext/User/User_AccessLog" />
+      <nodes>
+        <classShapeMoniker Id="d26acb76-3772-4dd5-b69e-f2c5c109a5f4" />
+        <classShapeMoniker Id="122e4dcb-9750-4b02-8b4c-4aa34157b8db" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

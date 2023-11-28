@@ -169,9 +169,9 @@
       <LastGenOutput>Mapping.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Mapping.dbml.layout">
+    <None Include="Mapping.dbml.layout">
       <DependentUpon>Mapping.dbml</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Content\webfonts\fa-brands-400.eot" />
     <Content Include="Content\webfonts\fa-brands-400.ttf" />
     <Content Include="Content\webfonts\fa-brands-400.woff" />
@@ -239,6 +239,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\LoginCode.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -246,6 +247,15 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controller\AdminController.cs" />
+    <Compile Include="Controller\BasicController.cs" />
+    <Compile Include="Controller\UserController.cs" />
+    <Compile Include="DAO\AccessLogDAO.cs" />
+    <Compile Include="DAO\AdminDAO.cs" />
+    <Compile Include="DAO\BasicDAO.cs" />
+    <Compile Include="DAO\PlaceAccessDAO.cs" />
+    <Compile Include="DAO\PlaceDAO.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -268,6 +278,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Mapping.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Model\AccessLogCheck.cs" />
+    <Compile Include="Model\AdminCheck.cs" />
+    <Compile Include="Model\PlaceAccessCheck.cs" />
+    <Compile Include="Model\UserCheck.cs" />
     <Compile Include="Page.Master.cs">
       <DependentUpon>Page.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -290,6 +304,9 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="Util\ControlUtil.cs" />
+    <Compile Include="Util\DateUtil.cs" />
+    <Compile Include="Util\ParseUtil.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
