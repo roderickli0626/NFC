@@ -250,6 +250,9 @@
     </Compile>
     <Compile Include="Controller\AdminController.cs" />
     <Compile Include="Controller\BasicController.cs" />
+    <Compile Include="Controller\CryptoController.cs" />
+    <Compile Include="Controller\LoginController.cs" />
+    <Compile Include="Controller\SessionController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="DAO\AccessLogDAO.cs" />
     <Compile Include="DAO\AdminDAO.cs" />
