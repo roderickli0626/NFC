@@ -280,6 +280,7 @@
     <Content Include="Content\CSS\bootstrap-icons.css" />
     <Content Include="Content\CSS\bootstrap.min.css" />
     <Content Include="Content\CSS\datatables.css" />
+    <Content Include="Content\CSS\jquery.datetimepicker.min.css" />
     <Content Include="Content\CSS\owl.carousel.min.css" />
     <Content Include="Content\CSS\style.css" />
     <Content Include="Content\CSS\tempusdominus-bootstrap-4.min.css" />
@@ -357,6 +358,7 @@
     <Content Include="Scripts\JS\easing.min.js" />
     <Content Include="Scripts\JS\jquery-3.4.1.min.js" />
     <Content Include="Scripts\JS\jquery.dataTables.js" />
+    <Content Include="Scripts\JS\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\JS\main.js" />
     <Content Include="Scripts\JS\moment-timezone.min.js" />
     <Content Include="Scripts\JS\moment.min.js" />

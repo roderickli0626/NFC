@@ -19,6 +19,7 @@ namespace NFC.Model
             UserName = accessLog.User?.UserName ?? "";
             AccessDate = accessLog.AccessDate?.ToString("dd/MM/yyyy HH.mm");
             Note = accessLog.Note;
+            AccessType = accessLog.User?.TypeOfTag ?? 0;
         }
         public int Id
         {
@@ -41,6 +42,10 @@ namespace NFC.Model
             get; set;
         }
         public string Note
+        {
+            get; set;
+        }
+        public int AccessType
         {
             get; set;
         }

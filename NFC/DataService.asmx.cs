@@ -3,6 +3,7 @@ using NFC.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -52,6 +53,48 @@ namespace NFC
 
             AdminController adminController = new AdminController();
             bool success = adminController.DeleteAdmin(id);
+
+            ResponseProc(success, "");
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void FindAccessLogs(int draw, int start, int length, string searchVal, int type, string searchFrom, string searchTo)
+        {
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            DateTime? from = null;
+            DateTime? to = null;
+
+            if (!string.IsNullOrEmpty(searchFrom))
+                from = DateTime.ParseExact(searchFrom, "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture);
+
+            if (!string.IsNullOrEmpty(searchTo))
+                to = DateTime.ParseExact(searchTo, "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture);
+
+            BasicController basicController = new BasicController();
+            SearchResult searchResult = basicController.SearchLog(start, length, searchVal, type, from, to);
+
+            JSDataTable result = new JSDataTable();
+            result.data = (IEnumerable<object>)searchResult.ResultList;
+            result.draw = draw;
+            result.recordsTotal = searchResult.TotalCount;
+            result.recordsFiltered = searchResult.TotalCount;
+
+            ResponseJson(result);
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void DeleteAccessLog(int id)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            bool success = basicController.DeleteAccessLog(id);
 
             ResponseProc(success, "");
         }
