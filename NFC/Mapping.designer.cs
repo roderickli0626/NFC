@@ -859,7 +859,7 @@ namespace NFC
 		
 		private string _Surname;
 		
-		private System.Nullable<int> _Address;
+		private string _Address;
 		
 		private System.Nullable<System.DateTime> _ExpireDate;
 		
@@ -889,7 +889,7 @@ namespace NFC
     partial void OnUserNameChanged();
     partial void OnSurnameChanging(string value);
     partial void OnSurnameChanged();
-    partial void OnAddressChanging(System.Nullable<int> value);
+    partial void OnAddressChanging(string value);
     partial void OnAddressChanged();
     partial void OnExpireDateChanging(System.Nullable<System.DateTime> value);
     partial void OnExpireDateChanged();
@@ -974,8 +974,8 @@ namespace NFC
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="Int")]
-		public System.Nullable<int> Address
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="VarChar(MAX)")]
+		public string Address
 		{
 			get
 			{

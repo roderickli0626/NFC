@@ -15,8 +15,13 @@ namespace NFC.Model
             if (user == null) { return; }
             Id = user.Id;
             Name = user.UserName;
-            NFC = user.NFC;
-            Role = user.Role;
+            Surname = user.Surname;
+            Mobile = user.Mobile;
+            Phone = user.Phone;
+            Address = user.Address;
+            TagType = user.TypeOfTag;
+            City = user.City;
+            Email = user.Email;
             ExpireDate = user.ExpireDate?.ToString("dd/MM/yyyy HH.mm");
             Note = user.Note;
         }
@@ -28,11 +33,31 @@ namespace NFC.Model
         {
             get; set;
         }
-        public string NFC
+        public string Surname
         {
             get; set;
         }
-        public int? Role
+        public string Phone
+        {
+            get; set;
+        }
+        public string Mobile
+        {
+            get; set;
+        }
+        public string Address
+        {
+            get; set;
+        }
+        public string Email
+        {
+            get; set;
+        }
+        public string City
+        {
+            get; set;
+        }
+        public int? TagType
         {
             get; set;
         }
