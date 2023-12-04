@@ -21,6 +21,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="Content/CSS/all.min.css" rel="stylesheet">
     <link href="Content/CSS/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="Content/CSS/datatables.css" />
 
     <!-- Libraries Stylesheet -->
     <link href="Content/CSS/owl.carousel.min.css" rel="stylesheet">
@@ -135,9 +136,14 @@
     <script src="Scripts/JS/moment.min.js"></script>
     <script src="Scripts/JS/moment-timezone.min.js"></script>
     <script src="Scripts/JS/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="Scripts/JS/jquery.dataTables.js"></script>
+    <script src="Scripts/JS/datatables.js"></script>
 
     <!-- Template Javascript -->
     <script src="Scripts/JS/main.js"></script>
+
+    <script src="Scripts/jquery.signalR-2.4.3.js"></script>
+    <script src="signalr/hubs"></script>
 
     <asp:ContentPlaceHolder ID="FooterPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>

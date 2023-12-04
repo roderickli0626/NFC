@@ -279,6 +279,7 @@
     <Content Include="Content\CSS\all.min.css" />
     <Content Include="Content\CSS\bootstrap-icons.css" />
     <Content Include="Content\CSS\bootstrap.min.css" />
+    <Content Include="Content\CSS\datatables.css" />
     <Content Include="Content\CSS\owl.carousel.min.css" />
     <Content Include="Content\CSS\style.css" />
     <Content Include="Content\CSS\tempusdominus-bootstrap-4.min.css" />
@@ -287,6 +288,7 @@
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\Site.css" />
     <Content Include="Dashboard.aspx" />
+    <Content Include="DataService.asmx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -351,8 +353,10 @@
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\JS\bootstrap.bundle.min.js" />
     <Content Include="Scripts\JS\chart.min.js" />
+    <Content Include="Scripts\JS\datatables.js" />
     <Content Include="Scripts\JS\easing.min.js" />
     <Content Include="Scripts\JS\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\JS\jquery.dataTables.js" />
     <Content Include="Scripts\JS\main.js" />
     <Content Include="Scripts\JS\moment-timezone.min.js" />
     <Content Include="Scripts\JS\moment.min.js" />
@@ -441,6 +445,10 @@
     <Compile Include="Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataService.asmx.cs">
+      <DependentUpon>DataService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -465,7 +473,10 @@
     </Compile>
     <Compile Include="Model\AccessLogCheck.cs" />
     <Compile Include="Model\AdminCheck.cs" />
+    <Compile Include="Model\JSDataTable.cs" />
     <Compile Include="Model\PlaceAccessCheck.cs" />
+    <Compile Include="Model\ProcResult.cs" />
+    <Compile Include="Model\SearchResult.cs" />
     <Compile Include="Model\UserCheck.cs" />
     <Compile Include="Page.Master.cs">
       <DependentUpon>Page.Master</DependentUpon>

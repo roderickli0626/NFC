@@ -8,9 +8,9 @@ namespace NFC
 {
     public class SignalRHub : Hub
     {
-        public void Hello()
+        public void SendAccessNotification(string message)
         {
-            Clients.All.hello();
+            Clients.All.receiveAccessNotification(message);
         }
     }
 }
