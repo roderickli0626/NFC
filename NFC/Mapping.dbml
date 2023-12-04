@@ -27,18 +27,6 @@
       <Association Name="Place_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="PlaceID" Type="PlaceAccess" />
     </Type>
   </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="NFC" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Role" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ExpireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Association Name="User_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="UserID" Type="PlaceAccess" />
-      <Association Name="User_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="UserID" Type="AccessLog" />
-    </Type>
-  </Table>
   <Table Name="dbo.AccessLog" Member="AccessLogs">
     <Type Name="AccessLog">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -47,6 +35,23 @@
       <Column Name="AccessDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="User_AccessLog" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Surname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Address" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExpireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TypeOfTag" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="User_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="UserID" Type="PlaceAccess" />
+      <Association Name="User_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="UserID" Type="AccessLog" />
     </Type>
   </Table>
 </Database>

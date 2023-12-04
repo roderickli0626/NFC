@@ -39,12 +39,12 @@ namespace NFC
     partial void InsertPlace(Place instance);
     partial void UpdatePlace(Place instance);
     partial void DeletePlace(Place instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
     partial void InsertAccessLog(AccessLog instance);
     partial void UpdateAccessLog(AccessLog instance);
     partial void DeleteAccessLog(AccessLog instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     #endregion
 		
 		public MappingDataContext(string connection) : 
@@ -95,19 +95,19 @@ namespace NFC
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
-		{
-			get
-			{
-				return this.GetTable<User>();
-			}
-		}
-		
 		public System.Data.Linq.Table<AccessLog> AccessLogs
 		{
 			get
 			{
 				return this.GetTable<AccessLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
 			}
 		}
 	}
@@ -648,244 +648,6 @@ namespace NFC
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _UserName;
-		
-		private string _NFC;
-		
-		private System.Nullable<int> _Role;
-		
-		private System.Nullable<System.DateTime> _ExpireDate;
-		
-		private string _Note;
-		
-		private EntitySet<PlaceAccess> _PlaceAccesses;
-		
-		private EntitySet<AccessLog> _AccessLogs;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnNFCChanging(string value);
-    partial void OnNFCChanged();
-    partial void OnRoleChanging(System.Nullable<int> value);
-    partial void OnRoleChanged();
-    partial void OnExpireDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnExpireDateChanged();
-    partial void OnNoteChanging(string value);
-    partial void OnNoteChanged();
-    #endregion
-		
-		public User()
-		{
-			this._PlaceAccesses = new EntitySet<PlaceAccess>(new Action<PlaceAccess>(this.attach_PlaceAccesses), new Action<PlaceAccess>(this.detach_PlaceAccesses));
-			this._AccessLogs = new EntitySet<AccessLog>(new Action<AccessLog>(this.attach_AccessLogs), new Action<AccessLog>(this.detach_AccessLogs));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(MAX)")]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NFC", DbType="VarChar(MAX)")]
-		public string NFC
-		{
-			get
-			{
-				return this._NFC;
-			}
-			set
-			{
-				if ((this._NFC != value))
-				{
-					this.OnNFCChanging(value);
-					this.SendPropertyChanging();
-					this._NFC = value;
-					this.SendPropertyChanged("NFC");
-					this.OnNFCChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="Int")]
-		public System.Nullable<int> Role
-		{
-			get
-			{
-				return this._Role;
-			}
-			set
-			{
-				if ((this._Role != value))
-				{
-					this.OnRoleChanging(value);
-					this.SendPropertyChanging();
-					this._Role = value;
-					this.SendPropertyChanged("Role");
-					this.OnRoleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpireDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ExpireDate
-		{
-			get
-			{
-				return this._ExpireDate;
-			}
-			set
-			{
-				if ((this._ExpireDate != value))
-				{
-					this.OnExpireDateChanging(value);
-					this.SendPropertyChanging();
-					this._ExpireDate = value;
-					this.SendPropertyChanged("ExpireDate");
-					this.OnExpireDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
-		public string Note
-		{
-			get
-			{
-				return this._Note;
-			}
-			set
-			{
-				if ((this._Note != value))
-				{
-					this.OnNoteChanging(value);
-					this.SendPropertyChanging();
-					this._Note = value;
-					this.SendPropertyChanged("Note");
-					this.OnNoteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_PlaceAccess", Storage="_PlaceAccesses", ThisKey="Id", OtherKey="UserID")]
-		public EntitySet<PlaceAccess> PlaceAccesses
-		{
-			get
-			{
-				return this._PlaceAccesses;
-			}
-			set
-			{
-				this._PlaceAccesses.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessLog", Storage="_AccessLogs", ThisKey="Id", OtherKey="UserID")]
-		public EntitySet<AccessLog> AccessLogs
-		{
-			get
-			{
-				return this._AccessLogs;
-			}
-			set
-			{
-				this._AccessLogs.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_PlaceAccesses(PlaceAccess entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_PlaceAccesses(PlaceAccess entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_AccessLogs(AccessLog entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_AccessLogs(AccessLog entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessLog")]
 	public partial class AccessLog : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1082,6 +844,364 @@ namespace NFC
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _UserName;
+		
+		private string _Surname;
+		
+		private System.Nullable<int> _Address;
+		
+		private System.Nullable<System.DateTime> _ExpireDate;
+		
+		private string _Note;
+		
+		private string _Email;
+		
+		private string _City;
+		
+		private string _Phone;
+		
+		private string _Mobile;
+		
+		private System.Nullable<int> _TypeOfTag;
+		
+		private EntitySet<PlaceAccess> _PlaceAccesses;
+		
+		private EntitySet<AccessLog> _AccessLogs;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnSurnameChanging(string value);
+    partial void OnSurnameChanged();
+    partial void OnAddressChanging(System.Nullable<int> value);
+    partial void OnAddressChanged();
+    partial void OnExpireDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnExpireDateChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnCityChanging(string value);
+    partial void OnCityChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnMobileChanging(string value);
+    partial void OnMobileChanged();
+    partial void OnTypeOfTagChanging(System.Nullable<int> value);
+    partial void OnTypeOfTagChanged();
+    #endregion
+		
+		public User()
+		{
+			this._PlaceAccesses = new EntitySet<PlaceAccess>(new Action<PlaceAccess>(this.attach_PlaceAccesses), new Action<PlaceAccess>(this.detach_PlaceAccesses));
+			this._AccessLogs = new EntitySet<AccessLog>(new Action<AccessLog>(this.attach_AccessLogs), new Action<AccessLog>(this.detach_AccessLogs));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(MAX)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Surname", DbType="VarChar(MAX)")]
+		public string Surname
+		{
+			get
+			{
+				return this._Surname;
+			}
+			set
+			{
+				if ((this._Surname != value))
+				{
+					this.OnSurnameChanging(value);
+					this.SendPropertyChanging();
+					this._Surname = value;
+					this.SendPropertyChanged("Surname");
+					this.OnSurnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="Int")]
+		public System.Nullable<int> Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpireDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ExpireDate
+		{
+			get
+			{
+				return this._ExpireDate;
+			}
+			set
+			{
+				if ((this._ExpireDate != value))
+				{
+					this.OnExpireDateChanging(value);
+					this.SendPropertyChanging();
+					this._ExpireDate = value;
+					this.SendPropertyChanged("ExpireDate");
+					this.OnExpireDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(MAX)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="VarChar(MAX)")]
+		public string City
+		{
+			get
+			{
+				return this._City;
+			}
+			set
+			{
+				if ((this._City != value))
+				{
+					this.OnCityChanging(value);
+					this.SendPropertyChanging();
+					this._City = value;
+					this.SendPropertyChanged("City");
+					this.OnCityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(MAX)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mobile", DbType="VarChar(MAX)")]
+		public string Mobile
+		{
+			get
+			{
+				return this._Mobile;
+			}
+			set
+			{
+				if ((this._Mobile != value))
+				{
+					this.OnMobileChanging(value);
+					this.SendPropertyChanging();
+					this._Mobile = value;
+					this.SendPropertyChanged("Mobile");
+					this.OnMobileChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeOfTag", DbType="Int")]
+		public System.Nullable<int> TypeOfTag
+		{
+			get
+			{
+				return this._TypeOfTag;
+			}
+			set
+			{
+				if ((this._TypeOfTag != value))
+				{
+					this.OnTypeOfTagChanging(value);
+					this.SendPropertyChanging();
+					this._TypeOfTag = value;
+					this.SendPropertyChanged("TypeOfTag");
+					this.OnTypeOfTagChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_PlaceAccess", Storage="_PlaceAccesses", ThisKey="Id", OtherKey="UserID")]
+		public EntitySet<PlaceAccess> PlaceAccesses
+		{
+			get
+			{
+				return this._PlaceAccesses;
+			}
+			set
+			{
+				this._PlaceAccesses.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessLog", Storage="_AccessLogs", ThisKey="Id", OtherKey="UserID")]
+		public EntitySet<AccessLog> AccessLogs
+		{
+			get
+			{
+				return this._AccessLogs;
+			}
+			set
+			{
+				this._AccessLogs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PlaceAccesses(PlaceAccess entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_PlaceAccesses(PlaceAccess entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_AccessLogs(AccessLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_AccessLogs(AccessLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 	}
 }
