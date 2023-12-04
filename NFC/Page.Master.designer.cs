@@ -42,6 +42,15 @@ namespace NFC
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl SubName;
 
         /// <summary>
+        /// liDashboard control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor liDashboard;
+
+        /// <summary>
         /// liAdmin control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace NFC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor liAccessLog;
+
+        /// <summary>
+        /// NavUserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NavUserName;
 
         /// <summary>
         /// UserName control.

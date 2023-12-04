@@ -15,64 +15,46 @@ namespace NFC.Controller
     }
     public class LoginController
     {
-        private UserDAO userDao;
+        private AdminDAO adminDao;
 
         public LoginController()
         {
-            userDao = new UserDAO();
+            adminDao = new AdminDAO();
         }
 
-        //public LoginCode LoginAndSaveSession(string email, EncryptedPass pass)
-        //{
-        //    string SuperAdminEmail = System.Configuration.ConfigurationManager.AppSettings["AdminUserName"];
-        //    string SuperAdminPass = System.Configuration.ConfigurationManager.AppSettings["AdminPassword"];
+        public LoginCode LoginAndSaveSession(string email, EncryptedPass pass)
+        {
+            string SuperAdminEmail = System.Configuration.ConfigurationManager.AppSettings["AdminUserName"];
+            string SuperAdminPass = System.Configuration.ConfigurationManager.AppSettings["AdminPassword"];
 
-        //    if (email.CompareTo(SuperAdminEmail) == 0 && pass.UnEncrypted.CompareTo(SuperAdminPass) == 0)
-        //    {
-        //        new SessionController().SetSuperAdmin();
-        //        new SessionController().SetCurrentUserId(0);
-        //        new SessionController().SetCurrentUserEmail(email);
-        //        new SessionController().SetPassword(pass);
-        //        new SessionController().SetTimeout(60 * 24 * 7 * 2);
-        //        return LoginCode.Success;
-        //    }
+            if (email.CompareTo(SuperAdminEmail) == 0 && pass.UnEncrypted.CompareTo(SuperAdminPass) == 0)
+            {
+                new SessionController().SetSuperAdmin();
+                new SessionController().SetCurrentUserId(0);
+                new SessionController().SetCurrentUserEmail(email);
+                new SessionController().SetPassword(pass);
+                new SessionController().SetTimeout(60 * 24 * 7 * 2);
+                return LoginCode.Success;
+            }
 
-        //    //User user = userDao.FindByEmail(email);
-        //    User user = userDao.FindByEmail(email);
-        //    if (user == null) { return LoginCode.Failed; }
-        //    string modelPW = new CryptoController().DecryptStringAES(user.Password);
-        //    if (pass.UnEncrypted.CompareTo(modelPW) == 0)
-        //    {
-        //        if (user.Role == (int)Role.ADMIN)
-        //        {
-        //            new SessionController().SetAdmin();
-        //        }
-        //        else if (user.Role == (int)Role.MASTER)
-        //        {
-        //            new SessionController().SetMaster();
-        //        }
-        //        else if (user.Role == (int)Role.AGENCY)
-        //        {
-        //            new SessionController().SetAgency();
-        //        }
-        //        else
-        //        {
-        //            new SessionController().SetUser();
-        //        }
+            Admin admin = adminDao.FindByEmail(email);
+            if (admin == null) { return LoginCode.Failed; }
+            string modelPW = new CryptoController().DecryptStringAES(admin.Password);
+            if (pass.UnEncrypted.CompareTo(modelPW) == 0)
+            {
+                new SessionController().SetAdmin();
+                new SessionController().SetCurrentUserId(admin.Id);
+                new SessionController().SetCurrentUserEmail(admin.Email);
+                new SessionController().SetPassword(pass);
+                new SessionController().SetTimeout(60 * 24 * 7 * 2);
 
-        //        new SessionController().SetCurrentUserId(user.Id);
-        //        new SessionController().SetCurrentUserEmail(user.Email);
-        //        new SessionController().SetPassword(pass);
-        //        new SessionController().SetTimeout(60 * 24 * 7 * 2);
-
-        //        return LoginCode.Success;
-        //    }
-        //    else
-        //    {
-        //        return LoginCode.Failed;
-        //    }
-
-        //}
+                return LoginCode.Success;
+            }
+            else
+            {
+                return LoginCode.Failed;
+            }
+        }
         public bool IsSuperAdminLoggedIn()
         {
             return new SessionController().GetSuperAdmin() == true;
@@ -81,13 +63,13 @@ namespace NFC.Controller
         {
             return new SessionController().GetAdmin() == true;
         }
-        public User GetCurrentUserAccount()
+        public Admin GetCurrentUserAccount()
         {
-            User user = null;
+            Admin admin = null;
             int? id = new SessionController().GetCurrentUserId();
             if (id == null) return null;
-            user = userDao.FindByID(id.Value);
-            return user;
+            admin = adminDao.FindByID(id.Value);
+            return admin;
         }
 
         //public bool RegisterUser(string name, string surname, string nickname, string email, EncryptedPass pass, string mobile, string note)

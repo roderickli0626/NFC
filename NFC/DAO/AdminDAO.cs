@@ -18,6 +18,10 @@ namespace NFC.DAO
         {
             return GetContext().Admins.Where(g => g.Id == id).FirstOrDefault();
         }
+        public Admin FindByEmail(string email)
+        {
+            return GetContext().Admins.Where(g => g.Email == email).FirstOrDefault();
+        }
         public bool Insert(Admin admin)
         {
             GetContext().Admins.InsertOnSubmit(admin);
