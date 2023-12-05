@@ -284,6 +284,7 @@
     <Content Include="Content\CSS\owl.carousel.min.css" />
     <Content Include="Content\CSS\style.css" />
     <Content Include="Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Content\CSS\toastr.css" />
     <Content Include="Content\webfonts\fa-brands-400.svg" />
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
@@ -364,6 +365,7 @@
     <Content Include="Scripts\JS\moment.min.js" />
     <Content Include="Scripts\JS\owl.carousel.min.js" />
     <Content Include="Scripts\JS\tempusdominus-bootstrap-4.min.js" />
+    <Content Include="Scripts\JS\toastr.min.js" />
     <Content Include="Scripts\JS\waypoints.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />

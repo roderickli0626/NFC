@@ -72,6 +72,13 @@
                 "data": "AccessDate",
             }, {
                 "data": "AccessType",
+                "render": function (data, type, row, meta) {
+                    if (data == 1) return "Button";
+                    else if (data == 2) return "RFID";
+                    else if (data == 3) return "TAG";
+                    else if (data == 4) return "NFC";
+                    else return "";
+                }
             }, {
                 "data": "Detail",
             }, {

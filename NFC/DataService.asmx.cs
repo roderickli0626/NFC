@@ -84,6 +84,24 @@ namespace NFC
 
             ResponseJson(result);
         }
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void FindDashboardAccessLogs(int draw, int start, int length, int key)
+        {
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            SearchResult searchResult = basicController.SearchDashboardLog(start, length, key);
+
+            JSDataTable result = new JSDataTable();
+            result.data = (IEnumerable<object>)searchResult.ResultList;
+            result.draw = draw;
+            result.recordsTotal = searchResult.TotalCount;
+            result.recordsFiltered = searchResult.TotalCount;
+
+            ResponseJson(result);
+        }
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
@@ -184,6 +202,71 @@ namespace NFC
             ResponseProc(success, "");
         }
 
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void GetChart1Data()
+        {
+            HttpResponse Response = Context.Response;
+            ProcResult result = new ProcResult();
+            Response.ContentType = "application/json; charset=utf-8";
+
+            try
+            {
+                BasicController basicController = new BasicController();
+                result.data = basicController.GetChart1Data();
+                result.success = true;
+                Response.Write(serializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                Response.Write(serializer.Serialize(result));
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void GetChart3Data()
+        {
+            HttpResponse Response = Context.Response;
+            ProcResult result = new ProcResult();
+            Response.ContentType = "application/json; charset=utf-8";
+
+            try
+            {
+                BasicController basicController = new BasicController();
+                result.data = basicController.GetChart3Data();
+                result.success = true;
+                Response.Write(serializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                Response.Write(serializer.Serialize(result));
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void GetChart2Data()
+        {
+            HttpResponse Response = Context.Response;
+            ProcResult result = new ProcResult();
+            Response.ContentType = "application/json; charset=utf-8";
+
+            try
+            {
+                BasicController basicController = new BasicController();
+                result.data = basicController.GetChart2Data();
+                result.success = true;
+                Response.Write(serializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                Response.Write(serializer.Serialize(result));
+            }
+        }
         protected void ResponseJson(Object result)
         {
             HttpResponse Response = Context.Response;
