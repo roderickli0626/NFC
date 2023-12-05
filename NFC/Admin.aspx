@@ -6,7 +6,7 @@
     <asp:HiddenField ID="HfAdminID" runat="server" ClientIDMode="Static" />
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <div class="col-12 vh-100">
+            <div class="col-12" style="min-height: 100vh;">
                 <div class="bg-secondary rounded h-100 p-5">
                     <h1 class="mb-4 text-center">ADMIN TABLE</h1>
                     <div class="mt-5 row">
