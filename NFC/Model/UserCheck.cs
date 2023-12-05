@@ -19,10 +19,9 @@ namespace NFC.Model
             Mobile = user.Mobile;
             Phone = user.Phone;
             Address = user.Address;
-            TagType = user.TypeOfTag;
+            TagType = user.TypeOfTag ?? 0;
             City = user.City;
             Email = user.Email;
-            ExpireDate = user.ExpireDate?.ToString("dd/MM/yyyy HH.mm");
             Note = user.Note;
         }
         public int Id
@@ -57,11 +56,7 @@ namespace NFC.Model
         {
             get; set;
         }
-        public int? TagType
-        {
-            get; set;
-        }
-        public string ExpireDate
+        public int TagType
         {
             get; set;
         }

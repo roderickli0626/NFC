@@ -861,8 +861,6 @@ namespace NFC
 		
 		private string _Address;
 		
-		private System.Nullable<System.DateTime> _ExpireDate;
-		
 		private string _Note;
 		
 		private string _Email;
@@ -891,8 +889,6 @@ namespace NFC
     partial void OnSurnameChanged();
     partial void OnAddressChanging(string value);
     partial void OnAddressChanged();
-    partial void OnExpireDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnExpireDateChanged();
     partial void OnNoteChanging(string value);
     partial void OnNoteChanged();
     partial void OnEmailChanging(string value);
@@ -990,26 +986,6 @@ namespace NFC
 					this._Address = value;
 					this.SendPropertyChanged("Address");
 					this.OnAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpireDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ExpireDate
-		{
-			get
-			{
-				return this._ExpireDate;
-			}
-			set
-			{
-				if ((this._ExpireDate != value))
-				{
-					this.OnExpireDateChanging(value);
-					this.SendPropertyChanging();
-					this._ExpireDate = value;
-					this.SendPropertyChanged("ExpireDate");
-					this.OnExpireDateChanged();
 				}
 			}
 		}

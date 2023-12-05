@@ -18,11 +18,11 @@ namespace NFC.DAO
         {
             return GetContext().Users.Where(g => g.Id == id).FirstOrDefault();
         }
-        public int Insert(User user)
+        public bool Insert(User user)
         {
             GetContext().Users.InsertOnSubmit(user);
             GetContext().SubmitChanges();
-            return user.Id;
+            return true;
         }
         public bool Update(User user)
         {

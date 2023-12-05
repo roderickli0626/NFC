@@ -54,5 +54,52 @@ namespace NFC.Controller
             return accessLogDAO.Delete(id);
         }
 
+        public SearchResult SearchPlaces(int start, int length, int userID)
+        {
+            SearchResult result = new SearchResult();
+            IEnumerable<PlaceAccess> placeList = placeAccessDAO.FindAll().OrderByDescending(m => m.PlaceID);
+            placeList = placeList.Where(place => place.UserID == userID);
+
+            result.TotalCount = placeList.Count();
+            placeList = placeList.Skip(start).Take(length);
+
+            List<object> checks = new List<object>();
+            foreach (PlaceAccess place in placeList)
+            {
+                PlaceAccessCheck placeCheck = new PlaceAccessCheck(place);
+                checks.Add(placeCheck);
+            }
+            result.ResultList = checks;
+
+            return result;
+        }
+
+        public bool DeletePlace(int id)
+        {
+            PlaceAccess place = placeAccessDAO.FindByID(id);
+            if (place == null) return false;
+
+            return placeAccessDAO.Delete(id);
+        }
+
+        public bool SavePlace(int userID, int placeID, DateTime? expireDate, string note) 
+        {
+            PlaceAccess place = placeAccessDAO.FindByUserID(userID).Where(p => p.PlaceID == placeID).FirstOrDefault();
+            if (place == null)
+            {
+                place = new PlaceAccess();
+                place.PlaceID = placeID;
+                place.Note = note;
+                place.UserID = userID;
+                place.ExpireDate = expireDate;
+                return placeAccessDAO.Insert(place);
+            }
+            else
+            {
+                place.ExpireDate = expireDate;
+                place.Note = note;
+                return placeAccessDAO.Update(place);
+            }
+        }
     }
 }

@@ -99,6 +99,91 @@ namespace NFC
             ResponseProc(success, "");
         }
 
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void FindUsers(int draw, int start, int length, string searchVal, int type)
+        {
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            UserController userController = new UserController();
+            SearchResult searchResult = userController.Search(start, length, searchVal, type);
+
+            JSDataTable result = new JSDataTable();
+            result.data = (IEnumerable<object>)searchResult.ResultList;
+            result.draw = draw;
+            result.recordsTotal = searchResult.TotalCount;
+            result.recordsFiltered = searchResult.TotalCount;
+
+            ResponseJson(result);
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void DeleteUser(int id)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            UserController userController = new UserController();
+            bool success = userController.DeleteUser(id);
+
+            ResponseProc(success, "");
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void FindPlaces(int draw, int start, int length, int userID)
+        {
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            SearchResult searchResult = basicController.SearchPlaces(start, length, userID);
+
+            JSDataTable result = new JSDataTable();
+            result.data = (IEnumerable<object>)searchResult.ResultList;
+            result.draw = draw;
+            result.recordsTotal = searchResult.TotalCount;
+            result.recordsFiltered = searchResult.TotalCount;
+
+            ResponseJson(result);
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void DeletePlace(int id)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            bool success = basicController.DeletePlace(id);
+
+            ResponseProc(success, "");
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void AddPlace(int userID, int placeID, string expireDate, string note)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            DateTime? expireDate1 = null;
+
+            if (!string.IsNullOrEmpty(expireDate))
+                expireDate1 = DateTime.ParseExact(expireDate, "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture);
+
+            BasicController basicController = new BasicController();
+            bool success = basicController.SavePlace(userID, placeID, expireDate1, note);
+
+            ResponseProc(success, "");
+        }
+
         protected void ResponseJson(Object result)
         {
             HttpResponse Response = Context.Response;

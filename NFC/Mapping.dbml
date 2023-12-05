@@ -43,7 +43,6 @@
       <Column Name="UserName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="Surname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="Address" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="ExpireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="City" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
