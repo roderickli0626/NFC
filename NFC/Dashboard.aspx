@@ -113,12 +113,22 @@
 
         proxy.client.receiveAccessNotification = function (message) {
             toastr.info(message);
-            DrawCharts();
+            
             // Increase Accesses
-            $("#CurrentAccess").text(parseInt($("#CurrentAccess").text())++);
-            $("#TodayAccess").text(parseInt($("#TodayAccess").text())++);
-            $("#WeekAccess").text(parseInt($("#WeekAccess").text())++);
-            $("#MonthAccess").text(parseInt($("#MonthAccess").text())++);
+            var currentAccess = parseInt($("#CurrentAccess").text())+1;
+            var toadyAccess = parseInt($("#TodayAccess").text())+1;
+            var weekAccess = parseInt($("#WeekAccess").text())+1;
+            var monthAccess = parseInt($("#MonthAccess").text())+1;
+            $("#CurrentAccess").text(currentAccess);
+            $("#TodayAccess").text(toadyAccess);
+            $("#WeekAccess").text(weekAccess);
+            $("#MonthAccess").text(monthAccess);
+
+            //DrawCharts();
+        };
+
+        proxy.client.receiveAccessErrorNotification = function (message) {
+            toastr.error(message);
         };
 
         $.connection.hub.start();

@@ -44,7 +44,7 @@ namespace NFC.Controller
             return userDAO.Delete(id);
         }
 
-        public bool SaveUser(int? userID, string name, string surname, string email, string address, string city, string phone, string mobile, int? type, string note)
+        public bool SaveUser(int? userID, string name, string surname, string email, string address, string city, string phone, string mobile, int? type, string UID, string note)
         {
             User user = userDAO.FindByID(userID ?? 0);
             if (user == null)
@@ -58,6 +58,7 @@ namespace NFC.Controller
                 user.Phone = phone;
                 user.Mobile = mobile;
                 user.TypeOfTag = type;
+                user.UID = UID;
                 user.Note = note;
 
                 return userDAO.Insert(user);
@@ -72,6 +73,7 @@ namespace NFC.Controller
                 user.Phone = phone;
                 user.Mobile = mobile;
                 user.TypeOfTag = type;
+                user.UID = UID;
                 user.Note = note;
 
                 return userDAO.Update(user);

@@ -22,6 +22,7 @@ namespace NFC.Model
             TagType = user.TypeOfTag ?? 0;
             City = user.City;
             Email = user.Email;
+            UID = user.UID;
             Note = user.Note;
         }
         public int Id
@@ -57,6 +58,10 @@ namespace NFC.Model
             get; set;
         }
         public int TagType
+        {
+            get; set;
+        }
+        public string UID
         {
             get; set;
         }

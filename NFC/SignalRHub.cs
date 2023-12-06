@@ -12,5 +12,10 @@ namespace NFC
         {
             Clients.All.receiveAccessNotification(message);
         }
+
+        public void SendAccessErrorNotification(string message)
+        {
+            Clients.All.receiveAccessErrorNotification(message);
+        }
     }
 }

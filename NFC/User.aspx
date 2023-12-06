@@ -105,6 +105,12 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
+                                    <label for="TxtTitle" class="form-label">UID</label>
+                                    <asp:TextBox runat="server" ID="TxtUID" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
                                     <label for="TxtTitle" class="form-label">Note</label>
                                     <asp:TextBox runat="server" ID="TxtNote" ClientIDMode="Static" TextMode="MultiLine" Rows="2" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
@@ -228,6 +234,7 @@
             $("#TxtCity").val("");
             $("#TxtPhone").val("");
             $("#TxtMobile").val("");
+            $("#TxtUID").val("");
             $("#TxtNote").val("");
 
             return false;
@@ -379,6 +386,7 @@
             $("#TxtCity").val(row.City);
             $("#TxtPhone").val(row.Phone);
             $("#TxtMobile").val(row.Mobile);
+            $("#TxtUID").val(row.UID);
             $("#TxtNote").val(row.Note);
         });
 

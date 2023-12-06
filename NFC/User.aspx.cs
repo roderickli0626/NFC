@@ -63,11 +63,12 @@ namespace NFC
             string phone = TxtPhone.Text;
             string mobile = TxtMobile.Text;
             int? type = ControlUtil.GetSelectedValue(ComboType1);
+            string UID = TxtUID.Text;
             string note = TxtNote.Text;
 
             int? userID = ParseUtil.TryParseInt(HfUserID.Value);
 
-            bool success = new UserController().SaveUser(userID, name, surname, email, address, city, phone, mobile, type, note);
+            bool success = new UserController().SaveUser(userID, name, surname, email, address, city, phone, mobile, type, UID, note);
             if (success)
             {
                 Page.Response.Redirect(Page.Request.Url.ToString(), true);

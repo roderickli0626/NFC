@@ -267,6 +267,17 @@ namespace NFC
                 Response.Write(serializer.Serialize(result));
             }
         }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void ReadNFC(string UID)
+        {
+            BasicController basicController = new BasicController();
+            bool success = basicController.ReadNFC(UID);
+
+            ResponseProc(success, "");
+        }
+
         protected void ResponseJson(Object result)
         {
             HttpResponse Response = Context.Response;

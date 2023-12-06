@@ -18,6 +18,10 @@ namespace NFC.DAO
         {
             return GetContext().Users.Where(g => g.Id == id).FirstOrDefault();
         }
+        public User FindByUID(string UID)
+        {
+            return GetContext().Users.Where(g => g.UID == UID).FirstOrDefault();
+        }
         public bool Insert(User user)
         {
             GetContext().Users.InsertOnSubmit(user);

@@ -4,7 +4,11 @@ using NFC.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
+using System.Text;
 using System.Web;
+using Microsoft.AspNet.SignalR;
 
 namespace NFC.Controller
 {
@@ -13,11 +17,13 @@ namespace NFC.Controller
         private AccessLogDAO accessLogDAO;
         private PlaceDAO placeDAO;
         private PlaceAccessDAO placeAccessDAO;
+        private UserDAO userDAO;
         public BasicController() 
         { 
             accessLogDAO = new AccessLogDAO();
             placeDAO = new PlaceDAO();
             placeAccessDAO = new PlaceAccessDAO();
+            userDAO = new UserDAO();
         }
 
         public SearchResult SearchLog(int start, int length, string searchVal, int type, DateTime? from, DateTime? to)
@@ -207,6 +213,72 @@ namespace NFC.Controller
             result.Add(tagResult);
 
             return result;
+        }
+
+        public bool ReadNFC(string UIDCode)
+        {
+            User user = userDAO.FindByUID(UIDCode);
+            if (user == null) 
+            {
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                return false; 
+            }
+            else
+            {
+                bool result = false;
+                List<PlaceAccess> accessList = placeAccessDAO.FindByUserID(user.Id);
+                List<Place> places = accessList.Where(a => a.ExpireDate > DateTime.Now).Select(l => l.Place).ToList();
+
+                foreach(Place accessPlace in places)
+                {
+                    SendCommandToRelay(accessPlace);
+                }
+
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.UserID = user.Id;
+                log.AccessDetail = "";
+                log.Note = "";
+                result = accessLogDAO.Insert(log);
+
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessNotification("New Access Detected.");
+
+                return result;
+            }
+        }
+
+        private bool SendCommandToRelay(Place place)
+        {
+            try
+            {
+                string relayIpAddress = place.IPAddress;
+                //string relayIpAddress = "192.168.0.100"; // Replace with actual IP address of the relay device
+
+                if (relayIpAddress == null) { return false; }
+
+                using (var client = new HttpClient())
+                {
+                    var content = new StringContent("open " + place.PlaceTitle, Encoding.UTF8, "text/plain");
+                    var response = client.PostAsync($"http://{relayIpAddress}/command", content).Result;
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions or errors that may occur during the command sending process
+                Console.WriteLine(ex.Message);
+            }
+
+            return false;
         }
     }
 }
