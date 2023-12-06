@@ -56,7 +56,7 @@
                                 <h3>Sign In</h3>
                             </div>
                             <div class="form-floating mb-3">
-                                <asp:TextBox runat="server" ID="TxtEmail" ClientIDMode="Static" CssClass="form-control text-white" placeholder="Email" TextMode="Email"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="TxtEmail" ClientIDMode="Static" CssClass="form-control text-white" placeholder="Email"></asp:TextBox>
                                 <label for="TxtEmail">Email address</label>
                             </div>
                             <div class="form-floating mb-4">

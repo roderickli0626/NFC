@@ -37,7 +37,7 @@ namespace NFC.Controller
                 return LoginCode.Success;
             }
 
-            Admin admin = adminDao.FindByEmail(email);
+            Admin admin = adminDao.FindByEmailOrName(email);
             if (admin == null) { return LoginCode.Failed; }
             string modelPW = new CryptoController().DecryptStringAES(admin.Password);
             if (pass.UnEncrypted.CompareTo(modelPW) == 0)
