@@ -44,6 +44,16 @@ namespace NFC.Controller
             return userDAO.Delete(id);
         }
 
+        public bool EnableUser(int id)
+        {
+            User item = userDAO.FindByID(id);
+            if (item == null) return false;
+
+            item.IsEnabled = !(item.IsEnabled ?? false);
+
+            return userDAO.Update(item);
+        }
+
         public bool SaveUser(int? userID, string name, string surname, string email, string address, string city, string phone, string mobile, int? type, string UID, string note)
         {
             User user = userDAO.FindByID(userID ?? 0);
@@ -60,6 +70,7 @@ namespace NFC.Controller
                 user.TypeOfTag = type;
                 user.UID = UID;
                 user.Note = note;
+                user.IsEnabled = true;
 
                 return userDAO.Insert(user);
             }

@@ -152,6 +152,20 @@ namespace NFC
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void EnableUser(int id)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            UserController userController = new UserController();
+            bool success = userController.EnableUser(id);
+
+            ResponseProc(success, "");
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public void FindPlaces(int draw, int start, int length, int userID)
         {
             Admin admin = loginSystem.GetCurrentUserAccount();

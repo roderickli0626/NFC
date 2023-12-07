@@ -30,6 +30,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Note</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -339,6 +340,12 @@
                 }
             }, {
                 "data": "Note",
+            } , {
+                "data": "IsEnabled",
+                "render": function (data, type, row, meta) {
+                    if (data) return '<button class="btn btn-success btn-enabled">Enabled</button>';
+                    else return '<button class="btn btn-danger btn-enabled">Disabled</button>';
+                }
             }, {
                 "data": null,
                 "render": function (data, type, row, meta) {
@@ -416,6 +423,26 @@
             $.ajax({
                 type: "POST",
                 url: 'DataService.asmx/DeleteUser',
+                data: {
+                    id: row.Id
+                },
+                success: function () {
+                    onSuccess({ success: true });
+                },
+                error: function () {
+                    onSuccess({ success: false });
+                }
+            });
+        });
+
+        datatable.on('click', '.btn-enabled', function (e) {
+            e.preventDefault();
+
+            var row = datatable.fnGetData($(this).closest('tr'));
+
+            $.ajax({
+                type: "POST",
+                url: 'DataService.asmx/EnableUser',
                 data: {
                     id: row.Id
                 },

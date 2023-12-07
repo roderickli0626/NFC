@@ -24,6 +24,7 @@ namespace NFC.Model
             Email = user.Email;
             UID = user.UID;
             Note = user.Note;
+            IsEnabled = user.IsEnabled ?? false;
         }
         public int Id
         {
@@ -66,6 +67,10 @@ namespace NFC.Model
             get; set;
         }
         public string Note
+        {
+            get; set;
+        }
+        public bool IsEnabled
         {
             get; set;
         }

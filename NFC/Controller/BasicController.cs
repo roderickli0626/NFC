@@ -218,7 +218,7 @@ namespace NFC.Controller
         public bool ReadNFC(string UIDCode)
         {
             User user = userDAO.FindByUID(UIDCode);
-            if (user == null) 
+            if (user == null || (user.IsEnabled ?? false) == false) 
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
