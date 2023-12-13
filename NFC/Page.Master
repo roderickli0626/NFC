@@ -62,6 +62,12 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
+                    <div class="ps-lg-5 pb-4 pt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="GlobalSetting" style="font-size:22px;" checked="">
+                            <label class="form-check-label" style="font-size:18px;" for="GlobalSetting">OPEN / CLOSE</label>
+                        </div>
+                    </div>
                     <a href="Dashboard.aspx" runat="server" id="liDashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="Admin.aspx" runat="server" id="liAdmin" class="nav-item nav-link"><i class="fa fa-user-tie me-2"></i>Admins</a>
                     <a href="User.aspx" runat="server" id="liUser" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Users</a>
@@ -144,6 +150,25 @@
 
     <script src="Scripts/jquery.signalR-2.4.3.js"></script>
     <script src="signalr/hubs"></script>
+
+    <script>
+        $("#GlobalSetting").click(function () {
+            $.ajax({
+                type: "POST",
+                url: 'DataService.asmx/SetGlobalSetting',
+                data: {
+                    IsOpen: this.checked
+                },
+                success: function () {
+                    console.log("Success");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle the error response
+                    console.log('Error:', textStatus, errorThrown);
+                }
+            });
+        });
+    </script>
 
     <asp:ContentPlaceHolder ID="FooterPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>

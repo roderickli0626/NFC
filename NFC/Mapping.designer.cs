@@ -36,15 +36,15 @@ namespace NFC
     partial void InsertPlaceAccess(PlaceAccess instance);
     partial void UpdatePlaceAccess(PlaceAccess instance);
     partial void DeletePlaceAccess(PlaceAccess instance);
-    partial void InsertPlace(Place instance);
-    partial void UpdatePlace(Place instance);
-    partial void DeletePlace(Place instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     partial void InsertAccessLog(AccessLog instance);
     partial void UpdateAccessLog(AccessLog instance);
     partial void DeleteAccessLog(AccessLog instance);
+    partial void InsertPlace(Place instance);
+    partial void UpdatePlace(Place instance);
+    partial void DeletePlace(Place instance);
     #endregion
 		
 		public MappingDataContext(string connection) : 
@@ -87,14 +87,6 @@ namespace NFC
 			}
 		}
 		
-		public System.Data.Linq.Table<Place> Places
-		{
-			get
-			{
-				return this.GetTable<Place>();
-			}
-		}
-		
 		public System.Data.Linq.Table<User> Users
 		{
 			get
@@ -108,6 +100,14 @@ namespace NFC
 			get
 			{
 				return this.GetTable<AccessLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Place> Places
+		{
+			get
+			{
+				return this.GetTable<Place>();
 			}
 		}
 	}
@@ -286,9 +286,9 @@ namespace NFC
 		
 		private string _Note;
 		
-		private EntityRef<Place> _Place;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<Place> _Place;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -308,8 +308,8 @@ namespace NFC
 		
 		public PlaceAccess()
 		{
-			this._Place = default(EntityRef<Place>);
 			this._User = default(EntityRef<User>);
+			this._Place = default(EntityRef<Place>);
 			OnCreated();
 		}
 		
@@ -421,40 +421,6 @@ namespace NFC
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_PlaceAccess", Storage="_Place", ThisKey="PlaceID", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
-		public Place Place
-		{
-			get
-			{
-				return this._Place.Entity;
-			}
-			set
-			{
-				Place previousValue = this._Place.Entity;
-				if (((previousValue != value) 
-							|| (this._Place.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Place.Entity = null;
-						previousValue.PlaceAccesses.Remove(this);
-					}
-					this._Place.Entity = value;
-					if ((value != null))
-					{
-						value.PlaceAccesses.Add(this);
-						this._PlaceID = value.Id;
-					}
-					else
-					{
-						this._PlaceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Place");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_PlaceAccess", Storage="_User", ThisKey="UserID", OtherKey="Id", IsForeignKey=true)]
 		public User User
 		{
@@ -489,169 +455,37 @@ namespace NFC
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Places")]
-	public partial class Place : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _PlaceTitle;
-		
-		private string _Note;
-		
-		private string _IPAddress;
-		
-		private EntitySet<PlaceAccess> _PlaceAccesses;
-		
-		private EntitySet<AccessLog> _AccessLogs;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnPlaceTitleChanging(string value);
-    partial void OnPlaceTitleChanged();
-    partial void OnNoteChanging(string value);
-    partial void OnNoteChanged();
-    partial void OnIPAddressChanging(string value);
-    partial void OnIPAddressChanged();
-    #endregion
-		
-		public Place()
-		{
-			this._PlaceAccesses = new EntitySet<PlaceAccess>(new Action<PlaceAccess>(this.attach_PlaceAccesses), new Action<PlaceAccess>(this.detach_PlaceAccesses));
-			this._AccessLogs = new EntitySet<AccessLog>(new Action<AccessLog>(this.attach_AccessLogs), new Action<AccessLog>(this.detach_AccessLogs));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_PlaceAccess", Storage="_Place", ThisKey="PlaceID", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public Place Place
 		{
 			get
 			{
-				return this._Id;
+				return this._Place.Entity;
 			}
 			set
 			{
-				if ((this._Id != value))
+				Place previousValue = this._Place.Entity;
+				if (((previousValue != value) 
+							|| (this._Place.HasLoadedOrAssignedValue == false)))
 				{
-					this.OnIdChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					if ((previousValue != null))
+					{
+						this._Place.Entity = null;
+						previousValue.PlaceAccesses.Remove(this);
+					}
+					this._Place.Entity = value;
+					if ((value != null))
+					{
+						value.PlaceAccesses.Add(this);
+						this._PlaceID = value.Id;
+					}
+					else
+					{
+						this._PlaceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Place");
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlaceTitle", DbType="VarChar(MAX)")]
-		public string PlaceTitle
-		{
-			get
-			{
-				return this._PlaceTitle;
-			}
-			set
-			{
-				if ((this._PlaceTitle != value))
-				{
-					this.OnPlaceTitleChanging(value);
-					this.SendPropertyChanging();
-					this._PlaceTitle = value;
-					this.SendPropertyChanged("PlaceTitle");
-					this.OnPlaceTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
-		public string Note
-		{
-			get
-			{
-				return this._Note;
-			}
-			set
-			{
-				if ((this._Note != value))
-				{
-					this.OnNoteChanging(value);
-					this.SendPropertyChanging();
-					this._Note = value;
-					this.SendPropertyChanged("Note");
-					this.OnNoteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IPAddress", DbType="VarChar(MAX)")]
-		public string IPAddress
-		{
-			get
-			{
-				return this._IPAddress;
-			}
-			set
-			{
-				if ((this._IPAddress != value))
-				{
-					this.OnIPAddressChanging(value);
-					this.SendPropertyChanging();
-					this._IPAddress = value;
-					this.SendPropertyChanged("IPAddress");
-					this.OnIPAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_PlaceAccess", Storage="_PlaceAccesses", ThisKey="Id", OtherKey="PlaceID")]
-		public EntitySet<PlaceAccess> PlaceAccesses
-		{
-			get
-			{
-				return this._PlaceAccesses;
-			}
-			set
-			{
-				this._PlaceAccesses.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_AccessLogs", ThisKey="Id", OtherKey="PlaceID")]
-		public EntitySet<AccessLog> AccessLogs
-		{
-			get
-			{
-				return this._AccessLogs;
-			}
-			set
-			{
-				this._AccessLogs.Assign(value);
 			}
 		}
 		
@@ -673,30 +507,6 @@ namespace NFC
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_PlaceAccesses(PlaceAccess entity)
-		{
-			this.SendPropertyChanging();
-			entity.Place = this;
-		}
-		
-		private void detach_PlaceAccesses(PlaceAccess entity)
-		{
-			this.SendPropertyChanging();
-			entity.Place = null;
-		}
-		
-		private void attach_AccessLogs(AccessLog entity)
-		{
-			this.SendPropertyChanging();
-			entity.Place = this;
-		}
-		
-		private void detach_AccessLogs(AccessLog entity)
-		{
-			this.SendPropertyChanging();
-			entity.Place = null;
 		}
 	}
 	
@@ -1104,9 +914,9 @@ namespace NFC
 		
 		private System.Nullable<bool> _IsOut;
 		
-		private EntityRef<Place> _Place;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<Place> _Place;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1132,8 +942,8 @@ namespace NFC
 		
 		public AccessLog()
 		{
-			this._Place = default(EntityRef<Place>);
 			this._User = default(EntityRef<User>);
+			this._Place = default(EntityRef<Place>);
 			OnCreated();
 		}
 		
@@ -1305,40 +1115,6 @@ namespace NFC
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_Place", ThisKey="PlaceID", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
-		public Place Place
-		{
-			get
-			{
-				return this._Place.Entity;
-			}
-			set
-			{
-				Place previousValue = this._Place.Entity;
-				if (((previousValue != value) 
-							|| (this._Place.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Place.Entity = null;
-						previousValue.AccessLogs.Remove(this);
-					}
-					this._Place.Entity = value;
-					if ((value != null))
-					{
-						value.AccessLogs.Add(this);
-						this._PlaceID = value.Id;
-					}
-					else
-					{
-						this._PlaceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Place");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessLog", Storage="_User", ThisKey="UserID", OtherKey="Id", IsForeignKey=true)]
 		public User User
 		{
@@ -1373,6 +1149,40 @@ namespace NFC
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_Place", ThisKey="PlaceID", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public Place Place
+		{
+			get
+			{
+				return this._Place.Entity;
+			}
+			set
+			{
+				Place previousValue = this._Place.Entity;
+				if (((previousValue != value) 
+							|| (this._Place.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Place.Entity = null;
+						previousValue.AccessLogs.Remove(this);
+					}
+					this._Place.Entity = value;
+					if ((value != null))
+					{
+						value.AccessLogs.Add(this);
+						this._PlaceID = value.Id;
+					}
+					else
+					{
+						this._PlaceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Place");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1391,6 +1201,220 @@ namespace NFC
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Places")]
+	public partial class Place : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _PlaceTitle;
+		
+		private string _Note;
+		
+		private string _IPAddress;
+		
+		private System.Nullable<bool> _GlobalOpenSetting;
+		
+		private EntitySet<PlaceAccess> _PlaceAccesses;
+		
+		private EntitySet<AccessLog> _AccessLogs;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnPlaceTitleChanging(string value);
+    partial void OnPlaceTitleChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnIPAddressChanging(string value);
+    partial void OnIPAddressChanged();
+    partial void OnGlobalOpenSettingChanging(System.Nullable<bool> value);
+    partial void OnGlobalOpenSettingChanged();
+    #endregion
+		
+		public Place()
+		{
+			this._PlaceAccesses = new EntitySet<PlaceAccess>(new Action<PlaceAccess>(this.attach_PlaceAccesses), new Action<PlaceAccess>(this.detach_PlaceAccesses));
+			this._AccessLogs = new EntitySet<AccessLog>(new Action<AccessLog>(this.attach_AccessLogs), new Action<AccessLog>(this.detach_AccessLogs));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlaceTitle", DbType="VarChar(MAX)")]
+		public string PlaceTitle
+		{
+			get
+			{
+				return this._PlaceTitle;
+			}
+			set
+			{
+				if ((this._PlaceTitle != value))
+				{
+					this.OnPlaceTitleChanging(value);
+					this.SendPropertyChanging();
+					this._PlaceTitle = value;
+					this.SendPropertyChanged("PlaceTitle");
+					this.OnPlaceTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IPAddress", DbType="VarChar(MAX)")]
+		public string IPAddress
+		{
+			get
+			{
+				return this._IPAddress;
+			}
+			set
+			{
+				if ((this._IPAddress != value))
+				{
+					this.OnIPAddressChanging(value);
+					this.SendPropertyChanging();
+					this._IPAddress = value;
+					this.SendPropertyChanged("IPAddress");
+					this.OnIPAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GlobalOpenSetting", DbType="Bit")]
+		public System.Nullable<bool> GlobalOpenSetting
+		{
+			get
+			{
+				return this._GlobalOpenSetting;
+			}
+			set
+			{
+				if ((this._GlobalOpenSetting != value))
+				{
+					this.OnGlobalOpenSettingChanging(value);
+					this.SendPropertyChanging();
+					this._GlobalOpenSetting = value;
+					this.SendPropertyChanged("GlobalOpenSetting");
+					this.OnGlobalOpenSettingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_PlaceAccess", Storage="_PlaceAccesses", ThisKey="Id", OtherKey="PlaceID")]
+		public EntitySet<PlaceAccess> PlaceAccesses
+		{
+			get
+			{
+				return this._PlaceAccesses;
+			}
+			set
+			{
+				this._PlaceAccesses.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_AccessLogs", ThisKey="Id", OtherKey="PlaceID")]
+		public EntitySet<AccessLog> AccessLogs
+		{
+			get
+			{
+				return this._AccessLogs;
+			}
+			set
+			{
+				this._AccessLogs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PlaceAccesses(PlaceAccess entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = this;
+		}
+		
+		private void detach_PlaceAccesses(PlaceAccess entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = null;
+		}
+		
+		private void attach_AccessLogs(AccessLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = this;
+		}
+		
+		private void detach_AccessLogs(AccessLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = null;
 		}
 	}
 }

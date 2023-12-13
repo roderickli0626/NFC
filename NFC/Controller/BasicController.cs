@@ -222,7 +222,7 @@ namespace NFC.Controller
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
             bool result = false;
-            if (user == null || (user.IsEnabled ?? false) == false || place == null) 
+            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false == false)) 
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
@@ -281,7 +281,7 @@ namespace NFC.Controller
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
             bool result = false;
-            if (user == null || (user.IsEnabled ?? false) == false || place == null)
+            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false == false))
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
@@ -359,6 +359,17 @@ namespace NFC.Controller
             }
 
             return false;
+        }
+
+        public bool SetGlobalSetting(bool IsOpen)
+        {
+            List<Place> placeList = placeDAO.FindAll();
+            foreach (Place place in placeList)
+            {
+                place.GlobalOpenSetting = IsOpen;
+                placeDAO.Update(place);
+            }
+            return true;
         }
     }
 }

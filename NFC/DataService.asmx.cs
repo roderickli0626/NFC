@@ -302,6 +302,20 @@ namespace NFC
             ResponseProc(success, "");
         }
 
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void SetGlobalSetting(bool IsOpen)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            bool success = basicController.SetGlobalSetting(IsOpen);
+
+            ResponseProc(success, "");
+        }
+
         protected void ResponseJson(Object result)
         {
             HttpResponse Response = Context.Response;
