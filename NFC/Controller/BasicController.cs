@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using System.Reflection.Emit;
 
 namespace NFC.Controller
 {
@@ -187,7 +188,8 @@ namespace NFC.Controller
         public List<List<int>> GetChart2Data()
         {
             List<List<int>> result = new List<List<int>>();
-            List<AccessLog> logList = accessLogDAO.FindAll().Where(l => l.AccessDate?.DayOfWeek == DayOfWeek.Saturday || l.AccessDate?.DayOfWeek == DayOfWeek.Sunday).ToList();
+            //List<AccessLog> logList = accessLogDAO.FindAll().Where(l => l.AccessDate?.DayOfWeek == DayOfWeek.Saturday || l.AccessDate?.DayOfWeek == DayOfWeek.Sunday).ToList();
+            List<AccessLog> logList = accessLogDAO.FindAll();
             List<AccessLog> buttonLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.BUTTON).ToList();
             List<AccessLog> rfidLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.RFID).ToList();
             List<AccessLog> tagLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.TAG).ToList();
@@ -215,35 +217,113 @@ namespace NFC.Controller
             return result;
         }
 
-        public bool ReadNFC(string UIDCode)
+        public bool ReadInNFC(string UIDCode, string PlaceIP)
         {
             User user = userDAO.FindByUID(UIDCode);
-            if (user == null || (user.IsEnabled ?? false) == false) 
+            Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
+            bool result = false;
+            if (user == null || (user.IsEnabled ?? false) == false || place == null) 
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                 hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
 
-                return false; 
+                return result; 
             }
             else
             {
-                bool result = false;
-                List<PlaceAccess> accessList = placeAccessDAO.FindByUserID(user.Id);
-                List<Place> places = accessList.Where(a => a.ExpireDate > DateTime.Now).Select(l => l.Place).ToList();
-
-                foreach(Place accessPlace in places)
+                PlaceAccess access = placeAccessDAO.FindAll().Where(p => p.UserID == user.Id && p.PlaceID == place.Id).FirstOrDefault();
+                if (access == null)
                 {
-                    SendCommandToRelay(accessPlace);
+                    //Send Notification
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                    hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                    return result;
+                }
+
+                string note = "";
+                if (access.ExpireDate < DateTime.Now)
+                {
+                    note = "UID has expired.";
                 }
 
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
                 log.UserID = user.Id;
                 log.AccessDetail = "";
-                log.Note = "";
+                log.Note = note;
+                log.IsIn = true;
+                log.IsOut = false;
+                log.PlaceID = place.Id;
                 result = accessLogDAO.Insert(log);
 
+                if (access.ExpireDate < DateTime.Now)
+                {
+                    //Send Notification
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                    hubContext.Clients.All.receiveAccessErrorNotification("Expired UID Access Detected.");
+
+                    return result;
+                }
+
+                SendCommandToRelay(place);
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessNotification("New Access Detected.");
+
+                return result;
+            }
+        }
+
+        public bool ReadOutNFC(string UIDCode, string PlaceIP)
+        {
+            User user = userDAO.FindByUID(UIDCode);
+            Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
+            bool result = false;
+            if (user == null || (user.IsEnabled ?? false) == false || place == null)
+            {
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                return result;
+            }
+            else
+            {
+                PlaceAccess access = placeAccessDAO.FindAll().Where(p => p.UserID == user.Id && p.PlaceID == place.Id).FirstOrDefault();
+                if (access == null)
+                {
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                    hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                    return result;
+                }
+
+                string note = "";
+                if (access.ExpireDate < DateTime.Now)
+                {
+                    note = "UID has expired.";
+                }
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.UserID = user.Id;
+                log.AccessDetail = "";
+                log.Note = note;
+                log.IsOut = true;
+                log.IsIn = false;
+                log.PlaceID = place.Id;
+                result = accessLogDAO.Insert(log);
+
+                if (access.ExpireDate < DateTime.Now)
+                {
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                    hubContext.Clients.All.receiveAccessErrorNotification("Expired UID Access Detected.");
+
+                    return result;
+                }
+
+                SendCommandToRelay(place);
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                 hubContext1.Clients.All.receiveAccessNotification("New Access Detected.");

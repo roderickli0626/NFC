@@ -17,8 +17,13 @@ namespace NFC.Model
             Detail = accessLog.AccessDetail;
             UserID = accessLog.UserID;
             UserName = accessLog.User?.UserName ?? "";
+            UID = accessLog.User.UID;
+            PlaceID = accessLog.PlaceID;
+            PlaceTitle = accessLog.Place.PlaceTitle;
             AccessDate = accessLog.AccessDate?.ToString("dd/MM/yyyy HH.mm");
             Note = accessLog.Note;
+            IsIn = accessLog.IsIn ?? false;
+            IsOut = accessLog.IsOut ?? false;
             AccessType = accessLog.User?.TypeOfTag ?? 0;
         }
         public int Id
@@ -37,11 +42,31 @@ namespace NFC.Model
         {
             get; set;
         }
+        public int? PlaceID
+        {
+            get; set;
+        }
+        public string PlaceTitle
+        {
+            get; set;
+        }
         public string AccessDate
         {
             get; set;
         }
         public string Note
+        {
+            get; set;
+        }
+        public string UID
+        {
+            get; set;
+        }
+        public bool IsIn
+        {
+            get; set;
+        }
+        public bool IsOut
         {
             get; set;
         }

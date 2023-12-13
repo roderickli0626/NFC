@@ -284,10 +284,20 @@ namespace NFC
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public void ReadNFC(string UID)
+        public void ReadInNFC(string UID, string PlaceIP)
         {
             BasicController basicController = new BasicController();
-            bool success = basicController.ReadNFC(UID);
+            bool success = basicController.ReadInNFC(UID, PlaceIP);
+
+            ResponseProc(success, "");
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void ReadOutNFC(string UID, string PlaceIP)
+        {
+            BasicController basicController = new BasicController();
+            bool success = basicController.ReadOutNFC(UID, PlaceIP);
 
             ResponseProc(success, "");
         }

@@ -26,10 +26,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">Nr</th>
+                                <th scope="col">UID</th>
                                 <th scope="col">User Name</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Gate</th>
                                 <th scope="col">Access Type</th>
-                                <th scope="col">Detail</th>
+                                <th scope="col">In/Out</th>
+                                <th scope="col">Note</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -67,9 +70,13 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             }, {
+                "data": "UID",
+            }, {
                 "data": "UserName",
             }, {
                 "data": "AccessDate",
+            }, {
+                "data": "PlaceTitle",
             }, {
                 "data": "AccessType",
                 "render": function (data, type, row, meta) {
@@ -80,7 +87,12 @@
                     else return "";
                 }
             }, {
-                "data": "Detail",
+                "render": function (data, type, row, meta) {
+                    if (row.IsIn) return "In";
+                    else return "Out";
+                }
+            }, {
+                "data": "Note",
             }, {
                 "data": null,
                 "render": function (data, type, row, meta) {

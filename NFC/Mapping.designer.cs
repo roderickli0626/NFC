@@ -36,15 +36,15 @@ namespace NFC
     partial void InsertPlaceAccess(PlaceAccess instance);
     partial void UpdatePlaceAccess(PlaceAccess instance);
     partial void DeletePlaceAccess(PlaceAccess instance);
-    partial void InsertAccessLog(AccessLog instance);
-    partial void UpdateAccessLog(AccessLog instance);
-    partial void DeleteAccessLog(AccessLog instance);
     partial void InsertPlace(Place instance);
     partial void UpdatePlace(Place instance);
     partial void DeletePlace(Place instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertAccessLog(AccessLog instance);
+    partial void UpdateAccessLog(AccessLog instance);
+    partial void DeleteAccessLog(AccessLog instance);
     #endregion
 		
 		public MappingDataContext(string connection) : 
@@ -87,14 +87,6 @@ namespace NFC
 			}
 		}
 		
-		public System.Data.Linq.Table<AccessLog> AccessLogs
-		{
-			get
-			{
-				return this.GetTable<AccessLog>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Place> Places
 		{
 			get
@@ -108,6 +100,14 @@ namespace NFC
 			get
 			{
 				return this.GetTable<User>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AccessLog> AccessLogs
+		{
+			get
+			{
+				return this.GetTable<AccessLog>();
 			}
 		}
 	}
@@ -510,205 +510,6 @@ namespace NFC
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessLog")]
-	public partial class AccessLog : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _AccessDetail;
-		
-		private System.Nullable<int> _UserID;
-		
-		private System.Nullable<System.DateTime> _AccessDate;
-		
-		private string _Note;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnAccessDetailChanging(string value);
-    partial void OnAccessDetailChanged();
-    partial void OnUserIDChanging(System.Nullable<int> value);
-    partial void OnUserIDChanged();
-    partial void OnAccessDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnAccessDateChanged();
-    partial void OnNoteChanging(string value);
-    partial void OnNoteChanged();
-    #endregion
-		
-		public AccessLog()
-		{
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessDetail", DbType="VarChar(MAX)")]
-		public string AccessDetail
-		{
-			get
-			{
-				return this._AccessDetail;
-			}
-			set
-			{
-				if ((this._AccessDetail != value))
-				{
-					this.OnAccessDetailChanging(value);
-					this.SendPropertyChanging();
-					this._AccessDetail = value;
-					this.SendPropertyChanged("AccessDetail");
-					this.OnAccessDetailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
-		public System.Nullable<int> UserID
-		{
-			get
-			{
-				return this._UserID;
-			}
-			set
-			{
-				if ((this._UserID != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._UserID = value;
-					this.SendPropertyChanged("UserID");
-					this.OnUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> AccessDate
-		{
-			get
-			{
-				return this._AccessDate;
-			}
-			set
-			{
-				if ((this._AccessDate != value))
-				{
-					this.OnAccessDateChanging(value);
-					this.SendPropertyChanging();
-					this._AccessDate = value;
-					this.SendPropertyChanged("AccessDate");
-					this.OnAccessDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
-		public string Note
-		{
-			get
-			{
-				return this._Note;
-			}
-			set
-			{
-				if ((this._Note != value))
-				{
-					this.OnNoteChanging(value);
-					this.SendPropertyChanging();
-					this._Note = value;
-					this.SendPropertyChanged("Note");
-					this.OnNoteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessLog", Storage="_User", ThisKey="UserID", OtherKey="Id", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.AccessLogs.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.AccessLogs.Add(this);
-						this._UserID = value.Id;
-					}
-					else
-					{
-						this._UserID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Places")]
 	public partial class Place : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -724,6 +525,8 @@ namespace NFC
 		private string _IPAddress;
 		
 		private EntitySet<PlaceAccess> _PlaceAccesses;
+		
+		private EntitySet<AccessLog> _AccessLogs;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -742,6 +545,7 @@ namespace NFC
 		public Place()
 		{
 			this._PlaceAccesses = new EntitySet<PlaceAccess>(new Action<PlaceAccess>(this.attach_PlaceAccesses), new Action<PlaceAccess>(this.detach_PlaceAccesses));
+			this._AccessLogs = new EntitySet<AccessLog>(new Action<AccessLog>(this.attach_AccessLogs), new Action<AccessLog>(this.detach_AccessLogs));
 			OnCreated();
 		}
 		
@@ -838,6 +642,19 @@ namespace NFC
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_AccessLogs", ThisKey="Id", OtherKey="PlaceID")]
+		public EntitySet<AccessLog> AccessLogs
+		{
+			get
+			{
+				return this._AccessLogs;
+			}
+			set
+			{
+				this._AccessLogs.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -865,6 +682,18 @@ namespace NFC
 		}
 		
 		private void detach_PlaceAccesses(PlaceAccess entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = null;
+		}
+		
+		private void attach_AccessLogs(AccessLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.Place = this;
+		}
+		
+		private void detach_AccessLogs(AccessLog entity)
 		{
 			this.SendPropertyChanging();
 			entity.Place = null;
@@ -1250,6 +1079,318 @@ namespace NFC
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessLog")]
+	public partial class AccessLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _AccessDetail;
+		
+		private System.Nullable<int> _UserID;
+		
+		private System.Nullable<System.DateTime> _AccessDate;
+		
+		private string _Note;
+		
+		private System.Nullable<int> _PlaceID;
+		
+		private System.Nullable<bool> _IsIn;
+		
+		private System.Nullable<bool> _IsOut;
+		
+		private EntityRef<Place> _Place;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnAccessDetailChanging(string value);
+    partial void OnAccessDetailChanged();
+    partial void OnUserIDChanging(System.Nullable<int> value);
+    partial void OnUserIDChanged();
+    partial void OnAccessDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnAccessDateChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnPlaceIDChanging(System.Nullable<int> value);
+    partial void OnPlaceIDChanged();
+    partial void OnIsInChanging(System.Nullable<bool> value);
+    partial void OnIsInChanged();
+    partial void OnIsOutChanging(System.Nullable<bool> value);
+    partial void OnIsOutChanged();
+    #endregion
+		
+		public AccessLog()
+		{
+			this._Place = default(EntityRef<Place>);
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessDetail", DbType="VarChar(MAX)")]
+		public string AccessDetail
+		{
+			get
+			{
+				return this._AccessDetail;
+			}
+			set
+			{
+				if ((this._AccessDetail != value))
+				{
+					this.OnAccessDetailChanging(value);
+					this.SendPropertyChanging();
+					this._AccessDetail = value;
+					this.SendPropertyChanged("AccessDetail");
+					this.OnAccessDetailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
+		public System.Nullable<int> UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> AccessDate
+		{
+			get
+			{
+				return this._AccessDate;
+			}
+			set
+			{
+				if ((this._AccessDate != value))
+				{
+					this.OnAccessDateChanging(value);
+					this.SendPropertyChanging();
+					this._AccessDate = value;
+					this.SendPropertyChanged("AccessDate");
+					this.OnAccessDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="VarChar(MAX)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlaceID", DbType="Int")]
+		public System.Nullable<int> PlaceID
+		{
+			get
+			{
+				return this._PlaceID;
+			}
+			set
+			{
+				if ((this._PlaceID != value))
+				{
+					if (this._Place.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPlaceIDChanging(value);
+					this.SendPropertyChanging();
+					this._PlaceID = value;
+					this.SendPropertyChanged("PlaceID");
+					this.OnPlaceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsIn", DbType="Bit")]
+		public System.Nullable<bool> IsIn
+		{
+			get
+			{
+				return this._IsIn;
+			}
+			set
+			{
+				if ((this._IsIn != value))
+				{
+					this.OnIsInChanging(value);
+					this.SendPropertyChanging();
+					this._IsIn = value;
+					this.SendPropertyChanged("IsIn");
+					this.OnIsInChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOut", DbType="Bit")]
+		public System.Nullable<bool> IsOut
+		{
+			get
+			{
+				return this._IsOut;
+			}
+			set
+			{
+				if ((this._IsOut != value))
+				{
+					this.OnIsOutChanging(value);
+					this.SendPropertyChanging();
+					this._IsOut = value;
+					this.SendPropertyChanged("IsOut");
+					this.OnIsOutChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Place_AccessLog", Storage="_Place", ThisKey="PlaceID", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public Place Place
+		{
+			get
+			{
+				return this._Place.Entity;
+			}
+			set
+			{
+				Place previousValue = this._Place.Entity;
+				if (((previousValue != value) 
+							|| (this._Place.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Place.Entity = null;
+						previousValue.AccessLogs.Remove(this);
+					}
+					this._Place.Entity = value;
+					if ((value != null))
+					{
+						value.AccessLogs.Add(this);
+						this._PlaceID = value.Id;
+					}
+					else
+					{
+						this._PlaceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Place");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessLog", Storage="_User", ThisKey="UserID", OtherKey="Id", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.AccessLogs.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.AccessLogs.Add(this);
+						this._UserID = value.Id;
+					}
+					else
+					{
+						this._UserID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }
