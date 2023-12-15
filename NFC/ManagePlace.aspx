@@ -1,28 +1,27 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="NFC.Admin1" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="ManagePlace.aspx.cs" Inherits="NFC.ManagePlace" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:HiddenField ID="HfAdminID" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="HfPlaceID" runat="server" ClientIDMode="Static" />
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-12" style="min-height: 100vh;">
                 <div class="bg-secondary rounded h-100 p-5">
-                    <h1 class="mb-4 text-center">Lista Operatori</h1>
+                    <h1 class="mb-4 text-center">Manage Places</h1>
                     <div class="mt-5 row">
                         <div class="col-md-4">
-                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ Agg. STAFF</button>
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ Agg. Place</button>
                         </div>
                         <div class="col-md-4 ms-auto">
                             <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
                         </div>
                     </div>
-                    <table class="table table-striped text-center mt-4" id="admin-table">
+                    <table class="table table-striped text-center mt-4" id="place-table">
                         <thead>
                             <tr>
                                 <th scope="col">Nr</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">IP Address</th>
                                 <th scope="col">Nota</th>
                                 <th scope="col">Azione</th>
                             </tr>
@@ -34,43 +33,30 @@
             </div>
         </div>
     </div>
-    <div class="modal fade show" id="AdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-bs-backdrop="static" aria-modal="true">
+    <div class="modal fade show" id="PlaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-bs-backdrop="static" aria-modal="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white" id="modalTitle">Admin</h4>
+                    <h4 class="modal-title text-white">Manage Place</h4>
                 </div>
                 <div class="modal-body">
                     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
-                    <asp:UpdatePanel runat="server" ID="UpdatePanel" ClientIDMode="Static" class="row gy-3">
+                    <asp:UpdatePanel runat="server" ID="UpdatePanel2" ClientIDMode="Static" class="row gy-3">
                         <ContentTemplate>
-                            <asp:ValidationSummary ID="ValSummary" runat="server" CssClass="mt-lg mb-lg text-left bg-gradient" ClientIDMode="Static" />
-                            <asp:RequiredFieldValidator ID="ReqValEmail" runat="server" ErrorMessage="Inserire un indirizzo Email." CssClass="text-bg-danger" ControlToValidate="TxtEmail" Display="None"></asp:RequiredFieldValidator>
-                            <asp:CustomValidator ID="PasswordValidator" runat="server" ErrorMessage="Le Password non corrispondono." Display="None"></asp:CustomValidator>
-                            <asp:CustomValidator ID="EmailValidator" runat="server" ErrorMessage="Email non è corretta." Display="None"></asp:CustomValidator>
-                            <asp:CustomValidator ID="ServerValidator" runat="server" ErrorMessage="Questo indirizzo Email è già registrato." Display="None"></asp:CustomValidator>
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="mt-lg mb-lg text-left bg-gradient" ClientIDMode="Static" />
+                            <asp:RequiredFieldValidator ID="ReqValTitle" runat="server" ErrorMessage="Inserire un indirizzo Title." CssClass="text-bg-danger" ControlToValidate="TxtTitle" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RequiredFieldValidator ID="ReqValIP" runat="server" ErrorMessage="Inserire un indirizzo IP Address." CssClass="text-bg-danger" ControlToValidate="TxtIPAddress" Display="None"></asp:RequiredFieldValidator>
+                            <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="Save Failed." Display="None"></asp:CustomValidator>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Nome</label>
-                                    <asp:TextBox runat="server" ID="TxtName" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
+                                    <label for="TxtTitle" class="form-label">Place Title</label>
+                                    <asp:TextBox runat="server" ID="TxtTitle" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Email</label>
-                                    <asp:TextBox runat="server" ID="TxtEmail" ClientIDMode="Static" TextMode="Email" CssClass="form-control form-control-lg"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Password</label>
-                                    <asp:TextBox runat="server" ID="TxtPassword" ClientIDMode="Static" TextMode="Password" CssClass="form-control form-control-lg"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Conferma Password</label>
-                                    <asp:TextBox runat="server" ID="TxtPasswordRepeat" ClientIDMode="Static" TextMode="Password" CssClass="form-control form-control-lg"></asp:TextBox>
+                                    <label for="TxtTitle" class="form-label">IP Address</label>
+                                    <asp:TextBox runat="server" ID="TxtIPAddress" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -85,8 +71,8 @@
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
-                <div class="modal-footer modal--footer">
-                    <asp:Button runat="server" ID="BtnSave" CssClass="btn btn-primary" Text="Conferma" OnClick="BtnSave_Click" />
+                <div class="modal-footer">
+                    <asp:Button runat="server" ID="BtnSave" CssClass="btn btn-primary" Text="Save" OnClick="BtnSave_Click" />
                     <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
@@ -96,22 +82,20 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterPlaceHolder" runat="server">
     <script>
         $(".btn-add").click(function () {
-            $("#AdminModal").modal('show');
-            $(".modal-title").text("AGG. ADMIN");
-            $("#HfAdminID").val("");
-            $("#ValSummary").addClass("d-none");
-            $("#TxtName").val("");
-            $("#TxtEmail").val("");
+            $("#PlaceModal").modal('show');
+            $(".modal-title").text("AGG. PLACE");
+            $("#HfPlaceID").val("");
+            $("#ValidationSummary1").addClass("d-none");
+            $("#TxtTitle").val("");
+            $("#TxtIPAddress").val("");
             $("#TxtNote").val("");
-            $("#TxtPassword").val("");
-            $("#TxtPasswordRepeat").val("");
 
             return false;
         });
 
-        var datatable = $('#admin-table').dataTable({
+        var datatable = $('#place-table').dataTable({
             "serverSide": true,
-            "ajax": 'DataService.asmx/FindAdmins',
+            "ajax": 'DataService.asmx/FindBasicPlaces',
             "dom": '<"table-responsive"t>pr',
             "autoWidth": false,
             "pageLength": 20,
@@ -122,9 +106,9 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             }, {
-                "data": "Name",
+                "data": "Title",
             }, {
-                "data": "Email",
+                "data": "IPAddress",
             }, {
                 "data": "Note",
             }, {
@@ -143,7 +127,7 @@
 
             "rowCallback": function (row, data, index) {
                 $(row).find('td').css({ 'vertical-align': 'middle' });
-                $("#admin-table_wrapper").css('width', '100%');
+                $("#place-table_wrapper").css('width', '100%');
             }
         });
 
@@ -156,15 +140,13 @@
 
             var row = datatable.fnGetData($(this).closest('tr'));
 
-            $("#AdminModal").modal('show');
-            $(".modal-title").text("AGGIORNA STAFF");
-            $("#HfAdminID").val(row.Id);
-            $("#ValSummary").addClass("d-none");
-            $("#TxtName").val(row.Name);
-            $("#TxtEmail").val(row.Email);
+            $("#PlaceModal").modal('show');
+            $(".modal-title").text("AGGIORNA PLACE");
+            $("#HfPlaceID").val(row.Id);
+            $("#ValidationSummary1").addClass("d-none");
+            $("#TxtTitle").val(row.Title);
+            $("#TxtIPAddress").val(row.IPAddress);
             $("#TxtNote").val(row.Note);
-            $("#TxtPassword").val("");
-            $("#TxtPasswordRepeat").val("");
         });
 
         datatable.on('click', '.btn-delete', function (e) {
@@ -177,7 +159,7 @@
 
             $.ajax({
                 type: "POST",
-                url: 'DataService.asmx/DeleteAdmin',
+                url: 'DataService.asmx/DeleteBasicPlace',
                 data: {
                     id: row.Id
                 },

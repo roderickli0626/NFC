@@ -10,6 +10,7 @@ using System.Text;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using System.Reflection.Emit;
+using NFC.Util;
 
 namespace NFC.Controller
 {
@@ -59,9 +60,9 @@ namespace NFC.Controller
             SearchResult result = new SearchResult();
             IEnumerable<AccessLog> logList = accessLogDAO.FindAll().OrderByDescending(m => m.AccessDate);
             if (key == 1) logList = logList.Where(l => l.AccessDate > DateTime.Now.AddHours(-1));
-            else if (key == 2) logList  = logList.Where(l => l.AccessDate > DateTime.Now.AddDays(-1));
-            else if (key == 3) logList  = logList.Where(l => l.AccessDate > DateTime.Now.AddDays(-7));
-            else if (key == 4) logList  = logList.Where(l => l.AccessDate > DateTime.Now.AddMonths(-1));
+            else if (key == 2) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now));
+            else if (key == 3) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now));
+            else if (key == 4) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now));
 
             result.TotalCount = logList.Count();
             logList = logList.Skip(start).Take(length);
@@ -222,7 +223,7 @@ namespace NFC.Controller
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
             bool result = false;
-            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false == false)) 
+            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false) == false)
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
@@ -245,7 +246,7 @@ namespace NFC.Controller
                 string note = "";
                 if (access.ExpireDate < DateTime.Now)
                 {
-                    note = "UID has expired.";
+                    note = "ACCESSO SCADUTO";
                 }
 
                 AccessLog log = new AccessLog();
@@ -281,7 +282,7 @@ namespace NFC.Controller
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
             bool result = false;
-            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false == false))
+            if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false) == false)
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
@@ -303,7 +304,7 @@ namespace NFC.Controller
                 string note = "";
                 if (access.ExpireDate < DateTime.Now)
                 {
-                    note = "UID has expired.";
+                    note = "ACCESSO SCADUTO";
                 }
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
@@ -370,6 +371,55 @@ namespace NFC.Controller
                 placeDAO.Update(place);
             }
             return true;
+        }
+
+        public bool SaveBasicPlace(int? placeID, string title, string ipAddress, string note)
+        {
+            if (placeID != null) 
+            {
+                Place place = placeDAO.FindByID(placeID ?? 0);
+                if (place == null) return false;
+                place.PlaceTitle = title;
+                place.IPAddress = ipAddress;
+                place.Note = note;
+                return placeDAO.Update(place);
+            }
+            else
+            {
+                Place place = new Place();
+                place.PlaceTitle = title;
+                place.IPAddress = ipAddress;
+                place.Note = note;
+                return placeDAO.Insert(place);
+            }
+        }
+
+        public SearchResult SearchBasicPlaces(int start, int length, string searchVal)
+        {
+            SearchResult result = new SearchResult();
+            IEnumerable<Place> placeList = placeDAO.FindAll();
+            placeList = placeList.Where(place => place.PlaceTitle.ToLower().Contains(searchVal.ToLower()));
+
+            result.TotalCount = placeList.Count();
+            placeList = placeList.Skip(start).Take(length);
+
+            List<object> checks = new List<object>();
+            foreach (Place place in placeList)
+            {
+                PlaceCheck placeCheck = new PlaceCheck(place);
+                checks.Add(placeCheck);
+            }
+            result.ResultList = checks;
+
+            return result;
+        }
+
+        public bool DeleteBasicPlace(int id)
+        {
+            Place place = placeDAO.FindByID(id);
+            if (place == null) return false;
+
+            return placeDAO.Delete(id);
         }
     }
 }

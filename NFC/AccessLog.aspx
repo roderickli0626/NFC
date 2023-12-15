@@ -7,7 +7,7 @@
         <div class="row g-4">
             <div class="col-12" style="min-height: 100vh;">
                 <div class="bg-secondary rounded h-100 p-5">
-                    <h1 class="mb-4 text-center">ACCESS TABLE</h1>
+                    <h1 class="mb-4 text-center">Lista degli Accessi</h1>
                     <div class="mt-5 row">
                         <div class="col-md-3 ">
                             <asp:TextBox runat="server" ID="TxtFrom" CssClass="form-control form-control-lg" ClientIDMode="Static" placeholder="DAL ..."></asp:TextBox>
@@ -19,21 +19,21 @@
                             <asp:DropDownList runat="server" ID="ComboType" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                         </div>
                         <div class="col-md-3">
-                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
+                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="CERCA..."></asp:TextBox>
                         </div>
                     </div>
                     <table class="table table-striped text-center mt-4" id="access-table">
                         <thead>
                             <tr>
-                                <th scope="col">Nr</th>
+                                <th scope="col">Nr.</th>
                                 <th scope="col">UID</th>
-                                <th scope="col">User Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Gate</th>
-                                <th scope="col">Access Type</th>
+                                <th scope="col">Nominativo</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Varco</th>
+                                <th scope="col">Dispositivo</th>
                                 <th scope="col">In/Out</th>
-                                <th scope="col">Note</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Nota</th>
+                                <th scope="col">Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,10 +80,10 @@
             }, {
                 "data": "AccessType",
                 "render": function (data, type, row, meta) {
-                    if (data == 1) return "Button";
-                    else if (data == 2) return "RFID";
-                    else if (data == 3) return "TAG";
-                    else if (data == 4) return "NFC";
+                    if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
+                    else if (data == 2) return '<p class="text-danger">RFID</p>';
+                    else if (data == 3) return '<p class="text-warning">TAG</p>';
+                    else if (data == 4) return '<p class="text-white">NFC</p>';
                     else return "";
                 }
             }, {

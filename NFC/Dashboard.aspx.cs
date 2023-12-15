@@ -1,5 +1,6 @@
 ﻿using NFC.Controller;
 using NFC.DAO;
+using NFC.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +33,9 @@ namespace NFC
         {
             List<AccessLog> logs = new AccessLogDAO().FindAll();
             CurrentAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddHours(-1)).Count().ToString();
-            TodayAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddDays(-1)).Count().ToString();
-            WeekAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddDays(-7)).Count().ToString();
-            MonthAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddMonths(-1)).Count().ToString();
+            TodayAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now)).Count().ToString();
+            WeekAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now)).Count().ToString();
+            MonthAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now)).Count().ToString();
         }
     }
 }

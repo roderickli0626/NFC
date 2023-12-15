@@ -316,6 +316,38 @@ namespace NFC
             ResponseProc(success, "");
         }
 
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void FindBasicPlaces(int draw, int start, int length, string searchVal)
+        {
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            SearchResult searchResult = basicController.SearchBasicPlaces(start, length, searchVal);
+
+            JSDataTable result = new JSDataTable();
+            result.data = (IEnumerable<object>)searchResult.ResultList;
+            result.draw = draw;
+            result.recordsTotal = searchResult.TotalCount;
+            result.recordsFiltered = searchResult.TotalCount;
+
+            ResponseJson(result);
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void DeleteBasicPlace(int id)
+        {
+            //Is Logged in?
+            Admin admin = loginSystem.GetCurrentUserAccount();
+            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+
+            BasicController basicController = new BasicController();
+            bool success = basicController.DeleteBasicPlace(id);
+
+            ResponseProc(success, "");
+        }
         protected void ResponseJson(Object result)
         {
             HttpResponse Response = Context.Response;

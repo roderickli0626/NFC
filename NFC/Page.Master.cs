@@ -34,6 +34,9 @@ namespace NFC
             }
 
             SetMenuHighlight();
+            // Reset Global Open/Close Setting
+            BasicController basicController = new BasicController();
+            basicController.SetGlobalSetting(true);
         }
 
         protected void SetMenuHighlight()
@@ -55,6 +58,10 @@ namespace NFC
             else if (path.Equals("/AccessLog.aspx"))
             {
                 liAccessLog.Attributes["class"] += " active";
+            }
+            else if (path.Equals("/ManagePlace.aspx"))
+            {
+                liPlace.Attributes["class"] += " active";
             }
         }
     }

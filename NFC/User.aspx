@@ -10,22 +10,26 @@
                 <div class="bg-secondary rounded h-100 p-5">
                     <h1 class="mb-4 text-center">USER TABLE</h1>
                     <div class="mt-5 row">
-                        <div class="col-md-4">
-                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ ADD USER</button>
+                        <div class="col-md-3">
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ AGG. CLIENTE</button>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <asp:DropDownList runat="server" ID="ComboType" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                         </div>
-                        <div class="col-md-4 ms-auto">
+                        <div class="col-md-3 ms-auto">
                             <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-msg">SEND MESSAGE</button>
                         </div>
                     </div>
                     <table class="table table-striped text-center mt-4" id="user-table">
                         <thead>
                             <tr>
                                 <th scope="col">Nr</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Surname</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CognomeSurname</th>
+                                <th scope="col">UID</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Type</th>
@@ -190,6 +194,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade show" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-bs-backdrop="static" aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content bg-secondary">
+                <div class="modal-header">
+                    <h4 class="modal-title text-white">Whatsapp Message</h4>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel runat="server" ID="UpdatePanel2" ClientIDMode="Static" class="row gy-3">
+                        <ContentTemplate>
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="mt-lg mb-lg text-left bg-gradient" ClientIDMode="Static" />
+                            <asp:CustomValidator ID="CustomValidator0" runat="server" ErrorMessage="Please Insert Message." Display="None"></asp:CustomValidator>
+                            <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="Save Failed." Display="None"></asp:CustomValidator>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="TxtTitle" class="form-label">Message</label>
+                                    <asp:TextBox runat="server" ID="TxtMsg" ClientIDMode="Static" TextMode="MultiLine" Rows="3" CssClass="form-control form-control-lg"></asp:TextBox>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="BtnSend" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button runat="server" ID="BtnSend" CssClass="btn btn-primary" Text="Send Message" OnClick="BtnSend_Click" CausesValidation="false" />
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterPlaceHolder" runat="server">
     <script src="Scripts/JS/jquery.datetimepicker.full.min.js"></script>
@@ -326,16 +361,18 @@
             }, {
                 "data": "Surname",
             }, {
+                "data": "UID",
+            }, {
                 "data": "Address",
             }, {
                 "data": "Email",
             }, {
                 "data": "TagType",
                 "render": function (data, type, row, meta) {
-                    if (data == 1) return "Button";
-                    else if (data == 2) return "RFID";
-                    else if (data == 3) return "TAG";
-                    else if (data == 4) return "NFC";
+                    if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
+                    else if (data == 2) return '<p class="text-danger">RFID</p>';
+                    else if (data == 3) return '<p class="text-warning">TAG</p>';
+                    else if (data == 4) return '<p class="text-white">NFC</p>';
                     else return "";
                 }
             }, {
@@ -353,6 +390,7 @@
                         '<i class="fa fa-edit mt-1 btn-edit" style="font-size:20px; padding-right: 10px; color:greenyellow"></i>' +
                         '<i class="fa fa-trash mt-1 btn-delete" style="font-size:20px; padding-right: 10px; color:red"></i>' +
                         '<i class="fa fa-parking mt-1 btn-place" style="font-size:20px; padding-right: 10px; color:yellow"></i>' +
+                        '<i class="fa fa-comment-dots mt-1 btn-msg" style="font-size:20px; padding-right: 10px; color:lightgreen"></i>' +
                         '</div > ';
                 }
             }],
@@ -453,6 +491,27 @@
                     onSuccess({ success: false });
                 }
             });
+        });
+
+        datatable.on('click', '.btn-msg', function (e) {
+            e.preventDefault();
+
+            var row = datatable.fnGetData($(this).closest('tr'));
+
+            $("#MessageModal").modal('show');
+            $("#HfUserID").val(row.Id);
+            $("#ValidationSummary1").addClass("d-none");
+            $("#TxtMsg").val("");
+
+        });
+
+        $(".btn-msg").click(function () {
+            $("#MessageModal").modal('show');
+            $("#HfUserID").val("");
+            $("#ValidationSummary1").addClass("d-none");
+            $("#TxtMsg").val("");
+
+            return false;
         });
 
         var onSuccess = function (data) {

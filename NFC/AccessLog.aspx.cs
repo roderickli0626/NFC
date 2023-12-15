@@ -32,7 +32,7 @@ namespace NFC
         {
             ComboType.Items.Clear();
             ComboType.Items.Add(new ListItem("TUTTI", "0"));
-            ComboType.Items.Add(new ListItem("BUTTON", ((int)TagType.BUTTON).ToString()));
+            ComboType.Items.Add(new ListItem("TELECOMANDO", ((int)TagType.BUTTON).ToString()));
             ComboType.Items.Add(new ListItem("RFID", ((int)TagType.RFID).ToString()));
             ComboType.Items.Add(new ListItem("TAG", ((int)TagType.TAG).ToString()));
             ComboType.Items.Add(new ListItem("NFC", ((int)TagType.NFC).ToString()));

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using WhatsAppApi;
 
 namespace NFC
 {
@@ -39,14 +42,14 @@ namespace NFC
         {
             ComboType.Items.Clear();
             ComboType.Items.Add(new ListItem("TUTTI", "0"));
-            ComboType.Items.Add(new ListItem("BUTTON", ((int)TagType.BUTTON).ToString()));
+            ComboType.Items.Add(new ListItem("TELECOMANDO", ((int)TagType.BUTTON).ToString()));
             ComboType.Items.Add(new ListItem("RFID", ((int)TagType.RFID).ToString()));
             ComboType.Items.Add(new ListItem("TAG", ((int)TagType.TAG).ToString()));
             ComboType.Items.Add(new ListItem("NFC", ((int)TagType.NFC).ToString()));
 
             ComboType1.Items.Clear();
             ComboType1.Items.Add(new ListItem("", ""));
-            ComboType1.Items.Add(new ListItem("BUTTON", ((int)TagType.BUTTON).ToString()));
+            ComboType1.Items.Add(new ListItem("TELECOMANDO", ((int)TagType.BUTTON).ToString()));
             ComboType1.Items.Add(new ListItem("RFID", ((int)TagType.RFID).ToString()));
             ComboType1.Items.Add(new ListItem("TAG", ((int)TagType.TAG).ToString()));
             ComboType1.Items.Add(new ListItem("NFC", ((int)TagType.NFC).ToString()));
@@ -76,6 +79,63 @@ namespace NFC
             else
             {
                 ServerValidator.IsValid = false;
+                return;
+            }
+        }
+
+        protected void BtnSend_Click(object sender, EventArgs e)
+        {
+            string message = TxtMsg.Text;
+            if (string.IsNullOrEmpty(message)) 
+            {
+                CustomValidator0.IsValid = false;
+                return; 
+            }
+            int userID = ParseUtil.TryParseInt(HfUserID.Value) ?? 0;
+            bool success = true;
+            string fromPhoneNum = "+14155238886";
+
+            string accountSid = "ACecd0439dafcd1aa9564f796a0f7b3b67";//Replace with Read SID
+            string authToken = "02b5f5f7b7351ec18f684b3f0aec7ec7";//Replace with Auth Token
+
+            if (userID != 0)
+            {
+                User user = new UserDAO().FindByID(userID);
+                string toPhoneNum = user.Mobile;
+
+                TwilioClient.Init(accountSid, authToken);
+
+                var message1 = MessageResource.Create(
+                    from: new Twilio.Types.PhoneNumber("whatsapp:" + fromPhoneNum),
+                    to: new Twilio.Types.PhoneNumber("whatsapp:" + toPhoneNum),
+                    body: message
+                );
+            }
+            else
+            {
+                List<User> userList = new UserDAO().FindAll();
+                foreach (User user in userList)
+                {
+                    string toPhoneNum = user.Mobile;
+
+                    TwilioClient.Init(accountSid, authToken);
+
+                    var messageOptions = new CreateMessageOptions(
+                        new Twilio.Types.PhoneNumber("whatsapp:" + toPhoneNum));
+                    messageOptions.From = new Twilio.Types.PhoneNumber("whatsapp:" + fromPhoneNum);
+                    messageOptions.Body = message;
+
+                    var message1 = MessageResource.Create(messageOptions);
+                }
+            }
+
+            if (success)
+            {
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+            else
+            {
+                CustomValidator1.IsValid = false;
                 return;
             }
         }

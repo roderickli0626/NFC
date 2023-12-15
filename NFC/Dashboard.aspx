@@ -10,7 +10,7 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <a href="#0" id="Current"><i class="fa fa-chart-line fa-3x text-primary"></i></a>
                     <div class="ms-3">
-                        <p class="mb-2">Current Access</p>
+                        <p class="mb-2">Accesso Corrente</p>
                         <h6 runat="server" id="CurrentAccess" clientIDMode="static" class="mb-0">12</h6>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <a href="#0" id="Today"><i class="fa fa-chart-bar fa-3x text-primary"></i></a>
                     <div class="ms-3">
-                        <p class="mb-2">Today Access</p>
+                        <p class="mb-2">Accessi di OGGI</p>
                         <h6 runat="server" id="TodayAccess" clientIDMode="static" class="mb-0">45</h6>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <a href="#0" id="Week"><i class="fa fa-chart-area fa-3x text-primary"></i></a>
                     <div class="ms-3">
-                        <p class="mb-2">Week Access</p>
+                        <p class="mb-2">Accessi della SETTIMANA</p>
                         <h6 runat="server" id="WeekAccess" clientIDMode="static" class="mb-0">123</h6>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <a href="#0" id="Month"><i class="fa fa-chart-pie fa-3x text-primary"></i></a>
                     <div class="ms-3">
-                        <p class="mb-2">Month Access</p>
+                        <p class="mb-2">Accessi del MESE</p>
                         <h6 runat="server" id="MonthAccess" clientIDMode="static" class="mb-0">567</h6>
                     </div>
                 </div>
@@ -50,21 +50,21 @@
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">WorkDay Accesses</h6>
+                        <h6 class="mb-0">Grafico Temporali</h6>
                     </div>
                     <canvas id="bar-chart0"></canvas>
                 </div>
             </div>
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Weekend Accesses</h6>
+                    <h6 class="mb-4">Grafico Temporali</h6>
                     <canvas id="bar-chart"></canvas>
                 </div>
             </div>
             <div class="col-sm-12 col-xl-12">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Total Accesses</h6>
+                        <h6 class="mb-0">Grafico Totale</h6>
                         <%--<a href="">Show All</a>--%>
                     </div>
                     <canvas id="total-chart"></canvas>
@@ -77,7 +77,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white">Access Log</h4>
+                    <h4 class="modal-title text-white">Report Accessi</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row gy-3">
@@ -86,10 +86,13 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Nr</th>
-                                        <th scope="col">User Name</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Access Type</th>
-                                        <th scope="col">Detail</th>
+                                        <th scope="col">UID</th>
+                                        <th scope="col">Utente</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Varco</th>
+                                        <th scope="col">Dispositivo</th>
+                                        <th scope="col">In/Out</th>
+                                        <th scope="col">Dettagli</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,17 +176,26 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             }, {
+                "data": "UID",
+            }, {
                 "data": "UserName",
             }, {
                 "data": "AccessDate",
             }, {
+                "data": "PlaceTitle",
+            }, {
                 "data": "AccessType",
                 "render": function (data, type, row, meta) {
-                    if (data == 1) return "Button";
-                    else if (data == 2) return "RFID";
-                    else if (data == 3) return "TAG";
-                    else if (data == 4) return "NFC";
+                    if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
+                    else if (data == 2) return '<p class="text-danger">RFID</p>';
+                    else if (data == 3) return '<p class="text-warning">TAG</p>';
+                    else if (data == 4) return '<p class="text-white">NFC</p>';
                     else return "";
+                }
+            }, {
+                "render": function (data, type, row, meta) {
+                    if (row.IsIn) return "In";
+                    else return "Out";
                 }
             }, {
                 "data": "Detail",
@@ -221,19 +233,19 @@
                     var myChart1 = new Chart(ctx1, {
                         type: "bar",
                         data: {
-                            labels: ["BUTTON", "RFID", "TAG", "NFC"],
+                            labels: ["TELECOMANDO", "RFID", "TAG", "NFC"],
                             datasets: [{
-                                label: "MORNING",
+                                label: "MATTINA",
                                 data: chartData[0],
                                 backgroundColor: "rgba(235, 22, 22, .7)"
                             },
                             {
-                                label: "AFTERNOON",
+                                label: "POMERIGGIO",
                                 data: chartData[1],
                                 backgroundColor: "rgba(235, 22, 22, .5)"
                             },
                             {
-                                label: "EVENING",
+                                label: "SERA",
                                 data: chartData[2],
                                 backgroundColor: "rgba(235, 22, 22, .3)"
                             }
@@ -271,7 +283,7 @@
                         data: {
                             labels: previousMonthsDates,
                             datasets: [{
-                                label: "BUTTON",
+                                label: "TELECOMANDO",
                                 data: chartData[0],
                                 backgroundColor: "rgba(235, 22, 22, .7)",
                                 fill: true
@@ -315,9 +327,9 @@
                     var myChart4 = new Chart(ctx3, {
                         type: "bar",
                         data: {
-                            labels: ["BUTTON", "RFID", "TAG", "NFC"],
+                            labels: ["TELECOMANDO", "RFID", "TAG", "NFC"],
                             datasets: [{
-                                label: "ALL DAY",
+                                label: "TUTTI I GIORNI",
                                 backgroundColor: [
                                     "rgba(235, 22, 22, .7)",
                                     "rgba(235, 22, 22, .6)",
