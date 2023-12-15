@@ -34,7 +34,15 @@ namespace NFC.Controller
             IEnumerable<AccessLog> logList = accessLogDAO.FindAll().OrderByDescending(m => m.AccessDate);
             if (!string.IsNullOrEmpty(searchVal))
             {
-                logList = logList.Where(m => (m.User?.UserName.ToLower().Contains(searchVal.ToLower()) ?? false) || (m.User?.UID.Contains(searchVal) ?? false) || (m.Place?.PlaceTitle.ToLower().Contains(searchVal.ToLower()) ?? false));
+                if (searchVal.ToLower() == "In".ToLower() || searchVal.ToLower() == "Out".ToLower())
+                {
+                    bool logINs = (searchVal.ToLower() == "In".ToLower());
+                    logList = logList.Where(m => (m.IsIn ?? false) == logINs);
+                }
+                else
+                {
+                    logList = logList.Where(m => (m.User?.UserName.ToLower().Contains(searchVal.ToLower()) ?? false) || (m.User?.UID.Contains(searchVal) ?? false) || (m.Place?.PlaceTitle.ToLower().Contains(searchVal.ToLower()) ?? false) || m.Note.ToLower().Contains(searchVal.ToLower()));
+                }
             }
             if (type != 0) logList = logList.Where(l => l.User?.TypeOfTag == type);
 
@@ -240,6 +248,8 @@ namespace NFC.Controller
                 log.IsOut = false;
                 if (user == null || place == null)
                 {
+                    if (user != null) log.UserID = user.Id;
+                    if (place != null) log.PlaceID = place.Id;
                     log.Note = "Unknown";
                 }
                 else
@@ -319,6 +329,26 @@ namespace NFC.Controller
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                 hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
 
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.AccessDetail = "";
+                log.Note = "";
+                log.IsIn = false;
+                log.IsOut = true;
+                if (user == null || place == null)
+                {
+                    if (user != null) log.UserID = user.Id;
+                    if (place != null) log.PlaceID = place.Id;
+                    log.Note = "Unknown";
+                }
+                else
+                {
+                    log.UserID = user.Id;
+                    log.PlaceID = place.Id;
+                    log.Note = "Not Allowed";
+                }
+                accessLogDAO.Insert(log);
+
                 return result;
             }
             else
@@ -328,6 +358,16 @@ namespace NFC.Controller
                 {
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                     hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                    AccessLog failedlog = new AccessLog();
+                    failedlog.AccessDate = DateTime.Now;
+                    failedlog.UserID = user.Id;
+                    failedlog.AccessDetail = "";
+                    failedlog.Note = "Not Allowed";
+                    failedlog.IsIn = false;
+                    failedlog.IsOut = true;
+                    failedlog.PlaceID = place.Id;
+                    accessLogDAO.Insert(failedlog);
 
                     return result;
                 }

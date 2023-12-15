@@ -102,6 +102,10 @@ namespace NFC
                 string toPhoneNum = user.Mobile;
 
                 SendWhatsAppMsg(toPhoneNum, message);
+
+                // Show an alert to confirm message sent
+                string script = "alert('Message Sent!');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
             }
             else
             {
@@ -111,6 +115,10 @@ namespace NFC
                     string toPhoneNum = user.Mobile;
 
                     SendWhatsAppMsg(toPhoneNum, message);
+
+                    // Show an alert to confirm message sent
+                    string script = "alert('Message Sent!');";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
                 }
             }
 

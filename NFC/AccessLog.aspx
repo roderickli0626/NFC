@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="AccessLog.aspx.cs" Inherits="NFC.AccessLog1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="Content/CSS/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" href="Content/CSS/toastr.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid pt-4 px-4">
@@ -46,6 +47,23 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterPlaceHolder" runat="server">
     <script src="Scripts/JS/jquery.datetimepicker.full.min.js"></script>
+    <script src="Scripts/JS/toastr.min.js"></script>
+    <script>
+        // RealTime Notification
+        var proxy = $.connection.signalRHub;
+
+        proxy.client.receiveAccessNotification = function (message) {
+            toastr.info(message);
+            datatable.fnDraw();
+        };
+
+        proxy.client.receiveAccessErrorNotification = function (message) {
+            toastr.error(message);
+            datatable.fnDraw();
+        };
+
+        $.connection.hub.start();
+    </script>
     <script>
         $.datetimepicker.setLocale('it');
 
