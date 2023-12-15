@@ -17,9 +17,9 @@ namespace NFC.Model
             Detail = accessLog.AccessDetail;
             UserID = accessLog.UserID;
             UserName = accessLog.User?.UserName ?? "";
-            UID = accessLog.User.UID;
+            UID = accessLog.User?.UID ?? "";
             PlaceID = accessLog.PlaceID;
-            PlaceTitle = accessLog.Place.PlaceTitle;
+            PlaceTitle = accessLog.Place?.PlaceTitle ?? "";
             AccessDate = accessLog.AccessDate?.ToString("dd/MM/yyyy HH.mm");
             Note = accessLog.Note;
             IsIn = accessLog.IsIn ?? false;

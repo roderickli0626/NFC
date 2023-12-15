@@ -2,9 +2,11 @@
 using NFC.Controller;
 using NFC.DAO;
 using NFC.Util;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -93,23 +95,13 @@ namespace NFC
             }
             int userID = ParseUtil.TryParseInt(HfUserID.Value) ?? 0;
             bool success = true;
-            string fromPhoneNum = "+14155238886";
-
-            string accountSid = "ACecd0439dafcd1aa9564f796a0f7b3b67";//Replace with Read SID
-            string authToken = "02b5f5f7b7351ec18f684b3f0aec7ec7";//Replace with Auth Token
 
             if (userID != 0)
             {
                 User user = new UserDAO().FindByID(userID);
                 string toPhoneNum = user.Mobile;
 
-                TwilioClient.Init(accountSid, authToken);
-
-                var message1 = MessageResource.Create(
-                    from: new Twilio.Types.PhoneNumber("whatsapp:" + fromPhoneNum),
-                    to: new Twilio.Types.PhoneNumber("whatsapp:" + toPhoneNum),
-                    body: message
-                );
+                SendWhatsAppMsg(toPhoneNum, message);
             }
             else
             {
@@ -118,14 +110,7 @@ namespace NFC
                 {
                     string toPhoneNum = user.Mobile;
 
-                    TwilioClient.Init(accountSid, authToken);
-
-                    var messageOptions = new CreateMessageOptions(
-                        new Twilio.Types.PhoneNumber("whatsapp:" + toPhoneNum));
-                    messageOptions.From = new Twilio.Types.PhoneNumber("whatsapp:" + fromPhoneNum);
-                    messageOptions.Body = message;
-
-                    var message1 = MessageResource.Create(messageOptions);
+                    SendWhatsAppMsg(toPhoneNum, message);
                 }
             }
 
@@ -138,6 +123,22 @@ namespace NFC
                 CustomValidator1.IsValid = false;
                 return;
             }
+        }
+
+        private async Task SendWhatsAppMsg(string toPhoneNum, string message)
+        {
+            var url = "https://api.ultramsg.com/instance71748/messages/chat";
+            var client = new RestClient(url);
+
+            var request = new RestRequest(url, Method.Post);
+            request.AddHeader("content-type", "application/x-www-form-urlencoded");
+            request.AddParameter("token", "cq5s6q6y8hp7478g");
+            request.AddParameter("to", toPhoneNum);
+            request.AddParameter("body", message);
+
+            RestResponse response = await client.ExecuteAsync(request);
+            var output = response.Content;
+            Console.WriteLine(output);
         }
     }
 }

@@ -34,9 +34,6 @@ namespace NFC
             }
 
             SetMenuHighlight();
-            // Reset Global Open/Close Setting
-            BasicController basicController = new BasicController();
-            basicController.SetGlobalSetting(true);
         }
 
         protected void SetMenuHighlight()

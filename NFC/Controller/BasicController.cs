@@ -32,8 +32,11 @@ namespace NFC.Controller
         {
             SearchResult result = new SearchResult();
             IEnumerable<AccessLog> logList = accessLogDAO.FindAll().OrderByDescending(m => m.AccessDate);
-            logList = logList.Where(m => m.User.UserName.ToLower().Contains(searchVal.ToLower()));
-            if (type != 0) logList = logList.Where(l => l.User.TypeOfTag == type);
+            if (!string.IsNullOrEmpty(searchVal))
+            {
+                logList = logList.Where(m => (m.User?.UserName.ToLower().Contains(searchVal.ToLower()) ?? false) || (m.User?.UID.Contains(searchVal) ?? false) || (m.Place?.PlaceTitle.ToLower().Contains(searchVal.ToLower()) ?? false));
+            }
+            if (type != 0) logList = logList.Where(l => l.User?.TypeOfTag == type);
 
             if (from != null)
                 logList = logList.Where(u => u.AccessDate >= from.Value);
@@ -139,10 +142,10 @@ namespace NFC.Controller
             List<List<int>> result = new List<List<int>>();
 
             List<AccessLog> logList = accessLogDAO.FindAll().Where(l => l.AccessDate?.DayOfWeek != DayOfWeek.Saturday && l.AccessDate?.DayOfWeek != DayOfWeek.Sunday).ToList();
-            List<AccessLog> buttonLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.BUTTON).ToList();
-            List<AccessLog> rfidLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.RFID).ToList();
-            List<AccessLog> tagLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.TAG).ToList();
-            List<AccessLog> nfcLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.NFC).ToList();
+            List<AccessLog> buttonLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.BUTTON).ToList();
+            List<AccessLog> rfidLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.RFID).ToList();
+            List<AccessLog> tagLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.TAG).ToList();
+            List<AccessLog> nfcLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.NFC).ToList();
 
             List<int> subResult1 = new List<int>();
             subResult1.Add(buttonLogList.Where(l => l.AccessDate?.Hour >= 6 && l.AccessDate?.Hour < 12).Count());
@@ -173,10 +176,10 @@ namespace NFC.Controller
         {
             List<int> result = new List<int>();
             List<AccessLog> logList = accessLogDAO.FindAll().Where(l => l.AccessDate?.DayOfWeek == DayOfWeek.Saturday || l.AccessDate?.DayOfWeek == DayOfWeek.Sunday).ToList();
-            List<AccessLog> buttonLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.BUTTON).ToList();
-            List<AccessLog> rfidLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.RFID).ToList();
-            List<AccessLog> tagLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.TAG).ToList();
-            List<AccessLog> nfcLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.NFC).ToList();
+            List<AccessLog> buttonLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.BUTTON).ToList();
+            List<AccessLog> rfidLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.RFID).ToList();
+            List<AccessLog> tagLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.TAG).ToList();
+            List<AccessLog> nfcLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.NFC).ToList();
 
             result.Add(buttonLogList.Count());
             result.Add(rfidLogList.Count());
@@ -191,10 +194,10 @@ namespace NFC.Controller
             List<List<int>> result = new List<List<int>>();
             //List<AccessLog> logList = accessLogDAO.FindAll().Where(l => l.AccessDate?.DayOfWeek == DayOfWeek.Saturday || l.AccessDate?.DayOfWeek == DayOfWeek.Sunday).ToList();
             List<AccessLog> logList = accessLogDAO.FindAll();
-            List<AccessLog> buttonLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.BUTTON).ToList();
-            List<AccessLog> rfidLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.RFID).ToList();
-            List<AccessLog> tagLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.TAG).ToList();
-            List<AccessLog> nfcLogList = logList.Where(l => l.User.TypeOfTag == (int)TagType.NFC).ToList();
+            List<AccessLog> buttonLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.BUTTON).ToList();
+            List<AccessLog> rfidLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.RFID).ToList();
+            List<AccessLog> tagLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.TAG).ToList();
+            List<AccessLog> nfcLogList = logList.Where(l => l.User?.TypeOfTag == (int)TagType.NFC).ToList();
 
             List<int> buttonResult = new List<int>();
             List<int> rfidResult = new List<int>();
@@ -229,6 +232,24 @@ namespace NFC.Controller
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                 hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
 
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.AccessDetail = "";
+                log.Note = "";
+                log.IsIn = true;
+                log.IsOut = false;
+                if (user == null || place == null)
+                {
+                    log.Note = "Unknown";
+                }
+                else
+                {
+                    log.UserID = user.Id;
+                    log.PlaceID = place.Id;
+                    log.Note = "Not Allowed";
+                }
+                accessLogDAO.Insert(log);
+
                 return result; 
             }
             else
@@ -239,6 +260,16 @@ namespace NFC.Controller
                     //Send Notification
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                     hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+
+                    AccessLog failedlog = new AccessLog();
+                    failedlog.AccessDate = DateTime.Now;
+                    failedlog.UserID = user.Id;
+                    failedlog.AccessDetail = "";
+                    failedlog.Note = "Not Allowed";
+                    failedlog.IsIn = true;
+                    failedlog.IsOut = false;
+                    failedlog.PlaceID = place.Id;
+                    accessLogDAO.Insert(failedlog);
 
                     return result;
                 }
@@ -371,6 +402,16 @@ namespace NFC.Controller
                 placeDAO.Update(place);
             }
             return true;
+        }
+
+        public bool GetGlobalSetting()
+        {
+            bool result = false;
+            Place place = placeDAO.FindAll().FirstOrDefault();
+            if (place == null) return result;
+            result = place.GlobalOpenSetting ?? false;
+
+            return result;
         }
 
         public bool SaveBasicPlace(int? placeID, string title, string ipAddress, string note)

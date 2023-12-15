@@ -318,6 +318,28 @@ namespace NFC
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void GetGlobalSetting()
+        {
+            HttpResponse Response = Context.Response;
+            ProcResult result = new ProcResult();
+            Response.ContentType = "application/json; charset=utf-8";
+
+            try
+            {
+                BasicController basicController = new BasicController();
+                result.data = basicController.GetGlobalSetting();
+                result.success = true;
+                Response.Write(serializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                Response.Write(serializer.Serialize(result));
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public void FindBasicPlaces(int draw, int start, int length, string searchVal)
         {
             Admin admin = loginSystem.GetCurrentUserAccount();

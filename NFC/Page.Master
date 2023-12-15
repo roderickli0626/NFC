@@ -153,6 +153,24 @@
     <script src="signalr/hubs"></script>
 
     <script>
+        $.ajax({
+            type: "POST",
+            url: 'DataService.asmx/GetGlobalSetting',
+            success: function (res) {
+                var setting = res.data;
+                if (setting) {
+                    $("#GlobalSetting").prop("checked", true);
+                }
+                else {
+                    $("#GlobalSetting").prop("checked", false);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Handle the error response
+                console.log('Error:', textStatus, errorThrown);
+            }
+        });
+
         $("#GlobalSetting").click(function () {
             $.ajax({
                 type: "POST",
