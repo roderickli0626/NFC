@@ -70,10 +70,10 @@ namespace NFC.Controller
         {
             SearchResult result = new SearchResult();
             IEnumerable<AccessLog> logList = accessLogDAO.FindAll().OrderByDescending(m => m.AccessDate);
-            if (key == 1) logList = logList.Where(l => l.AccessDate > DateTime.Now.AddHours(-1));
-            else if (key == 2) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now));
-            else if (key == 3) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now));
-            else if (key == 4) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now));
+            if (key == 1) logList = logList.Where(l => l.AccessDate > DateTime.Now.AddHours(-1) && l.User != null && l.Place != null);
+            else if (key == 2) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now) && l.User != null && l.Place != null);
+            else if (key == 3) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now) && l.User != null && l.Place != null);
+            else if (key == 4) logList  = logList.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now) && l.User != null && l.Place != null);
 
             result.TotalCount = logList.Count();
             logList = logList.Skip(start).Take(length);

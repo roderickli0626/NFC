@@ -32,10 +32,10 @@ namespace NFC
         private void LoadInfo()
         {
             List<AccessLog> logs = new AccessLogDAO().FindAll();
-            CurrentAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddHours(-1)).Count().ToString();
-            TodayAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now)).Count().ToString();
-            WeekAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now)).Count().ToString();
-            MonthAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now)).Count().ToString();
+            CurrentAccess.InnerText = logs.Where(l => l.AccessDate > DateTime.Now.AddHours(-1) && l.User != null && l.Place != null).Count().ToString();
+            TodayAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfDay(DateTime.Now) && l.User != null && l.Place != null).Count().ToString();
+            WeekAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfWeek(DateTime.Now) && l.User != null && l.Place != null).Count().ToString();
+            MonthAccess.InnerText = logs.Where(l => l.AccessDate > DateUtil.startOfMonth(DateTime.Now) && l.User != null && l.Place != null).Count().ToString();
         }
     }
 }
