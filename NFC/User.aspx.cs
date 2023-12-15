@@ -104,7 +104,7 @@ namespace NFC
                 SendWhatsAppMsg(toPhoneNum, message);
 
                 // Show an alert to confirm message sent
-                string script = "alert('Message Sent!');";
+                string script = "alert('Message Sent!');location.reload();";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
             }
             else
@@ -115,22 +115,22 @@ namespace NFC
                     string toPhoneNum = user.Mobile;
 
                     SendWhatsAppMsg(toPhoneNum, message);
-
-                    // Show an alert to confirm message sent
-                    string script = "alert('Message Sent!');";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
                 }
+
+                // Show an alert to confirm message sent
+                string script = "alert('Message Sent!');location.reload();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
             }
 
-            if (success)
-            {
-                Page.Response.Redirect(Page.Request.Url.ToString(), true);
-            }
-            else
-            {
-                CustomValidator1.IsValid = false;
-                return;
-            }
+            //if (success)
+            //{
+            //    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            //}
+            //else
+            //{
+            //    CustomValidator1.IsValid = false;
+            //    return;
+            //}
         }
 
         private async Task SendWhatsAppMsg(string toPhoneNum, string message)

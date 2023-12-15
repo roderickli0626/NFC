@@ -8,7 +8,7 @@
         <div class="row g-4">
             <div class="col-12" style="min-height: 100vh;">
                 <div class="bg-secondary rounded h-100 p-5">
-                    <h1 class="mb-4 text-center">USER TABLE</h1>
+                    <h1 class="mb-4 text-center">CLIENTI</h1>
                     <div class="mt-5 row">
                         <div class="col-md-3">
                             <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ AGG. CLIENTE</button>
@@ -17,10 +17,10 @@
                             <asp:DropDownList runat="server" ID="ComboType" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                         </div>
                         <div class="col-md-3 ms-auto">
-                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
+                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="CERCA..."></asp:TextBox>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-msg">SEND MESSAGE</button>
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-msg">INVIA MESSAGGIO GLOBALE</button>
                         </div>
                     </div>
                     <table class="table table-striped text-center mt-4" id="user-table">
@@ -28,14 +28,14 @@
                             <tr>
                                 <th scope="col">Nr</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">CognomeSurname</th>
+                                <th scope="col">Cognome</th>
                                 <th scope="col">UID</th>
-                                <th scope="col">Address</th>
+                                <th scope="col">Indirizzo</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Type</th>
+                                <th scope="col">Dispositivo</th>
                                 <th scope="col">Note</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Stato</th>
+                                <th scope="col">Azione</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white" id="modalTitle">User</h4>
+                    <h4 class="modal-title text-white" id="modalTitle">Utente</h4>
                 </div>
                 <div class="modal-body">
                     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtSurname" class="form-label">Surname</label>
+                                    <label for="TxtSurname" class="form-label">Cognome</label>
                                     <asp:TextBox runat="server" ID="TxtSurname" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -80,25 +80,25 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Type Of Tag</label>
+                                    <label for="TxtTitle" class="form-label">Dispositivo</label>
                                     <asp:DropDownList runat="server" ID="ComboType1" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Address</label>
+                                    <label for="TxtTitle" class="form-label">Indirizzo</label>
                                     <asp:TextBox runat="server" ID="TxtAddress" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">City</label>
+                                    <label for="TxtTitle" class="form-label">Città</label>
                                     <asp:TextBox runat="server" ID="TxtCity" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Phone</label>
+                                    <label for="TxtTitle" class="form-label">Tel. fisso</label>
                                     <asp:TextBox runat="server" ID="TxtPhone" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Note</label>
+                                    <label for="TxtTitle" class="form-label">Nota</label>
                                     <asp:TextBox runat="server" ID="TxtNote" ClientIDMode="Static" TextMode="MultiLine" Rows="2" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white">Place</h4>
+                    <h4 class="modal-title text-white">Varco</h4>
                 </div>
                 <div class="modal-body">
                     <asp:UpdatePanel runat="server" ID="UpdatePanel1" ClientIDMode="Static" class="row gy-3">
@@ -146,19 +146,19 @@
                             <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="Save Failed." Display="None"></asp:CustomValidator>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Place</label>
+                                    <label for="TxtTitle" class="form-label">Varco</label>
                                     <asp:DropDownList runat="server" ID="ComboPlace" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Expire Date</label>
+                                    <label for="TxtTitle" class="form-label">Scadenza</label>
                                     <asp:TextBox runat="server" ID="TxtDate" CssClass="form-control form-control-lg" ClientIDMode="Static" placeholder="DAL ..."></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Note</label>
+                                    <label for="TxtTitle" class="form-label">Nota</label>
                                     <asp:TextBox runat="server" ID="TxtPlaceNote" ClientIDMode="Static" TextMode="MultiLine" Rows="2" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -173,10 +173,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Nr</th>
-                                            <th scope="col">Place</th>
-                                            <th scope="col">Expire Date</th>
-                                            <th scope="col">Note</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">Varco</th>
+                                            <th scope="col">Scadenza</th>
+                                            <th scope="col">Nota</th>
+                                            <th scope="col">Azione</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -198,17 +198,17 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white">Whatsapp Message</h4>
+                    <h4 class="modal-title text-white">Messaggio Whatsapp</h4>
                 </div>
                 <div class="modal-body">
                     <asp:UpdatePanel runat="server" ID="UpdatePanel2" ClientIDMode="Static" class="row gy-3">
                         <ContentTemplate>
                             <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="mt-lg mb-lg text-left bg-gradient" ClientIDMode="Static" />
-                            <asp:CustomValidator ID="CustomValidator0" runat="server" ErrorMessage="Please Insert Message." Display="None"></asp:CustomValidator>
+                            <asp:CustomValidator ID="CustomValidator0" runat="server" ErrorMessage="Inserisci il messaggio." Display="None"></asp:CustomValidator>
                             <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="Save Failed." Display="None"></asp:CustomValidator>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Message</label>
+                                    <label for="TxtTitle" class="form-label">Messaggio</label>
                                     <asp:TextBox runat="server" ID="TxtMsg" ClientIDMode="Static" TextMode="MultiLine" Rows="3" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -380,8 +380,8 @@
             } , {
                 "data": "IsEnabled",
                 "render": function (data, type, row, meta) {
-                    if (data) return '<button class="btn btn-success btn-enabled">Enabled</button>';
-                    else return '<button class="btn btn-danger btn-enabled">Disabled</button>';
+                    if (data) return '<button class="btn btn-success btn-enabled">Abilitato</button>';
+                    else return '<button class="btn btn-danger btn-enabled">Disabilitato</button>';
                 }
             }, {
                 "data": null,
