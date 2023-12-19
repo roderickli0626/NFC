@@ -19,7 +19,7 @@ namespace NFC.Controller
         {
             SearchResult result = new SearchResult();
             IEnumerable<Admin> adminList = adminDAO.FindAll();
-            if (!string.IsNullOrEmpty(searchVal)) adminList = adminList.Where(x => x.Name.ToLower().Contains(searchVal.ToLower())).ToList();
+            if (!string.IsNullOrEmpty(searchVal)) adminList = adminList.Where(x => x.Name.ToLower().Contains(searchVal.ToLower()) || x.UID.Contains(searchVal)).ToList();
 
             result.TotalCount = adminList.Count();
             adminList = adminList.Skip(start).Take(length);
@@ -43,7 +43,7 @@ namespace NFC.Controller
             return adminDAO.Delete(id);
         }
 
-        public bool SaveAdmin(int? adminID, string name, string email, EncryptedPass pass, string note)
+        public bool SaveAdmin(int? adminID, string name, string email, EncryptedPass pass, string note, string UID, int? type)
         {
             Admin admin = adminDAO.FindByID(adminID ?? 0);
             if (admin == null)
@@ -53,6 +53,8 @@ namespace NFC.Controller
                 admin = new Admin();
                 admin.Name = name;
                 admin.Email = email;
+                admin.UID = UID;
+                admin.TypeOfTag = type;
                 admin.Note = note;
                 admin.Password = pass?.Encrypted ?? "";
 
@@ -62,6 +64,8 @@ namespace NFC.Controller
             {
                 admin.Name = name;
                 admin.Email = email;
+                admin.UID = UID;
+                admin.TypeOfTag = type;
                 admin.Note = note;
                 if (pass != null)
                 {

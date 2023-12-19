@@ -32,6 +32,11 @@
 
     <!-- Template Stylesheet -->
     <link href="Content/CSS/style.css" rel="stylesheet">
+    <style>
+        td p {
+            margin-bottom:0;
+        }
+    </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

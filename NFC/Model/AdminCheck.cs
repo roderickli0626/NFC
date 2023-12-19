@@ -16,6 +16,8 @@ namespace NFC.Model
             Id = admin.Id;
             Name = admin.Name;
             Email = admin.Email;
+            UID = admin.UID;
+            TagType = admin.TypeOfTag ?? 0;
             Note = admin.Note;
         }
         public int Id
@@ -27,6 +29,14 @@ namespace NFC.Model
             get; set;
         }
         public string Email
+        {
+            get; set;
+        }
+        public string UID
+        {
+            get; set;
+        }
+        public int TagType
         {
             get; set;
         }

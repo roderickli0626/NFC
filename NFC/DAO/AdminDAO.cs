@@ -22,6 +22,10 @@ namespace NFC.DAO
         {
             return GetContext().Admins.Where(g => g.Email == email).FirstOrDefault();
         }
+        public Admin FindByUID(string UID)
+        {
+            return GetContext().Admins.Where(g => g.UID == UID).FirstOrDefault();
+        }
         public Admin FindByEmailOrName(string email)
         {
             return GetContext().Admins.Where(g => g.Email == email || g.Name == email).FirstOrDefault();

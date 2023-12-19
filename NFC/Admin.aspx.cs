@@ -1,4 +1,5 @@
-﻿using NFC.Controller;
+﻿using NFC.Common;
+using NFC.Controller;
 using NFC.Util;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,20 @@ namespace NFC
                 Response.Redirect("~/Login.aspx");
                 return;
             }
+
+            if (!IsPostBack)
+            {
+                LoadTagType();
+            }
+        }
+        private void LoadTagType()
+        {
+            ComboType1.Items.Clear();
+            ComboType1.Items.Add(new ListItem("", ""));
+            ComboType1.Items.Add(new ListItem("TELECOMANDO", ((int)TagType.BUTTON).ToString()));
+            ComboType1.Items.Add(new ListItem("RFID", ((int)TagType.RFID).ToString()));
+            ComboType1.Items.Add(new ListItem("TAG", ((int)TagType.TAG).ToString()));
+            ComboType1.Items.Add(new ListItem("NFC", ((int)TagType.NFC).ToString()));
         }
 
         protected void BtnSave_Click(object sender, EventArgs e)
@@ -29,6 +44,8 @@ namespace NFC
             if (!IsValid) return;
             string name = TxtName.Text;
             string email = TxtEmail.Text;
+            string UID = TxtUID.Text;
+            int? type = ControlUtil.GetSelectedValue(ComboType1);
             string password = TxtPassword.Text;
             string repeatPW = TxtPasswordRepeat.Text;
             string note = TxtNote.Text;
@@ -51,7 +68,7 @@ namespace NFC
             }
             int? adminID = ParseUtil.TryParseInt(HfAdminID.Value);
 
-            bool success = new AdminController().SaveAdmin(adminID, name, email, pass, note);
+            bool success = new AdminController().SaveAdmin(adminID, name, email, pass, note, UID, type);
             if (success)
             {
                 Page.Response.Redirect(Page.Request.Url.ToString(), true);

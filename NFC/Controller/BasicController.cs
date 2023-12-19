@@ -231,8 +231,32 @@ namespace NFC.Controller
 
         public bool ReadInNFC(string UIDCode, string PlaceIP)
         {
+            
+
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
+            // Admin Access
+            Admin admin = new AdminDAO().FindByUID(UIDCode);
+            if (admin != null)
+            {
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessNotification("Accesso in corso");
+
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.AdminID = admin.Id;
+                log.IsIn = true;
+                log.IsOut = false;
+                log.Note = "<i style=\"color:white\">Access STAFF</i>";
+                if (place != null)
+                {
+                    log.PlaceID = place.Id;
+                    SendCommandToRelay(place);
+                }
+                return accessLogDAO.Insert(log);
+            }
+
             bool result = false;
             if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false) == false)
             {
@@ -250,13 +274,13 @@ namespace NFC.Controller
                 {
                     if (user != null) log.UserID = user.Id;
                     if (place != null) log.PlaceID = place.Id;
-                    log.Note = "Unknown";
+                    log.Note = "Unathorized Access";
                 }
                 else
                 {
                     log.UserID = user.Id;
                     log.PlaceID = place.Id;
-                    log.Note = "Not Allowed";
+                    log.Note = "<i style=\"color:red\">Access Blocked</i>";
                 }
                 accessLogDAO.Insert(log);
 
@@ -275,7 +299,7 @@ namespace NFC.Controller
                     failedlog.AccessDate = DateTime.Now;
                     failedlog.UserID = user.Id;
                     failedlog.AccessDetail = "";
-                    failedlog.Note = "Not Allowed";
+                    failedlog.Note = "<i style=\"color:red\">Access Blocked</i>";
                     failedlog.IsIn = true;
                     failedlog.IsOut = false;
                     failedlog.PlaceID = place.Id;
@@ -284,10 +308,10 @@ namespace NFC.Controller
                     return result;
                 }
 
-                string note = "";
+                string note = "<i style=\"color:green\">Access Enabled</i>";
                 if (access.ExpireDate < DateTime.Now)
                 {
-                    note = "<i style=\"color:red\">ACCESSO SCADUTO</i>";                        
+                    note = "<i style=\"color:yellow\">ACCESSO SCADUTO</i>";                        
                 }
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
@@ -321,6 +345,28 @@ namespace NFC.Controller
         {
             User user = userDAO.FindByUID(UIDCode);
             Place place = placeDAO.FindAll().Where(p => p.IPAddress == PlaceIP).FirstOrDefault();
+            // Admin Access
+            Admin admin = new AdminDAO().FindByUID(UIDCode);
+            if (admin != null)
+            {
+                //Send Notification
+                var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+                hubContext1.Clients.All.receiveAccessNotification("Accesso in corso");
+
+                AccessLog log = new AccessLog();
+                log.AccessDate = DateTime.Now;
+                log.AdminID = admin.Id;
+                log.IsIn = false;
+                log.IsOut = true;
+                log.Note = "<i style=\"color:white\">Access STAFF</i>";
+                if (place != null)
+                {
+                    log.PlaceID = place.Id;
+                    SendCommandToRelay(place);
+                }
+                return accessLogDAO.Insert(log);
+            }
+
             bool result = false;
             if (user == null || (user.IsEnabled ?? false) == false || place == null || (place.GlobalOpenSetting ?? false) == false)
             {
@@ -338,13 +384,13 @@ namespace NFC.Controller
                 {
                     if (user != null) log.UserID = user.Id;
                     if (place != null) log.PlaceID = place.Id;
-                    log.Note = "Unknown";
+                    log.Note = "Unathorized Access";
                 }
                 else
                 {
                     log.UserID = user.Id;
                     log.PlaceID = place.Id;
-                    log.Note = "Non consentito";
+                    log.Note = "<i style=\"color:red\">Access Blocked</i>";
                 }
                 accessLogDAO.Insert(log);
 
@@ -362,7 +408,7 @@ namespace NFC.Controller
                     failedlog.AccessDate = DateTime.Now;
                     failedlog.UserID = user.Id;
                     failedlog.AccessDetail = "";
-                    failedlog.Note = "Non consentito";
+                    failedlog.Note = "<i style=\"color:red\">Access Blocked</i>";
                     failedlog.IsIn = false;
                     failedlog.IsOut = true;
                     failedlog.PlaceID = place.Id;
@@ -371,10 +417,10 @@ namespace NFC.Controller
                     return result;
                 }
 
-                string note = "";
+                string note = "<i style=\"color:green\">Access Enabled</i>";
                 if (access.ExpireDate < DateTime.Now)
                 {
-                    note = "ACCESSO SCADUTO";
+                    note = "<i style=\"color:yellow\">ACCESSO SCADUTO</i>";
                 }
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;

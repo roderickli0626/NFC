@@ -1,13 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="NFC" Class="MappingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Table Name="dbo.Admin" Member="Admins">
-    <Type Name="Admin">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.PlaceAccess" Member="PlaceAccesses">
     <Type Name="PlaceAccess">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -37,6 +28,29 @@
       <Association Name="User_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="UserID" Type="AccessLog" />
     </Type>
   </Table>
+  <Table Name="dbo.Places" Member="Places">
+    <Type Name="Place">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PlaceTitle" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="IPAddress" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="GlobalOpenSetting" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Place_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="PlaceID" Type="PlaceAccess" />
+      <Association Name="Place_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="PlaceID" Type="AccessLog" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Admin" Member="Admins">
+    <Type Name="Admin">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="UID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TypeOfTag" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Admin_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="AdminID" Type="AccessLog" />
+    </Type>
+  </Table>
   <Table Name="dbo.AccessLog" Member="AccessLogs">
     <Type Name="AccessLog">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -47,19 +61,10 @@
       <Column Name="PlaceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IsIn" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="IsOut" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="User_AccessLog" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Column Name="AdminID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Admin_AccessLog" Member="Admin" ThisKey="AdminID" OtherKey="Id" Type="Admin" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Place_AccessLog" Member="Place" ThisKey="PlaceID" OtherKey="Id" Type="Place" IsForeignKey="true" DeleteRule="CASCADE" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Places" Member="Places">
-    <Type Name="Place">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="PlaceTitle" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="IPAddress" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="GlobalOpenSetting" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="Place_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="PlaceID" Type="PlaceAccess" />
-      <Association Name="Place_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="PlaceID" Type="AccessLog" />
+      <Association Name="User_AccessLog" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

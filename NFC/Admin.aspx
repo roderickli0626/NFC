@@ -23,6 +23,8 @@
                                 <th scope="col">Nr</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">UID</th>
+                                <th scope="col">Dispositivo</th>
                                 <th scope="col">Nota</th>
                                 <th scope="col">Azione</th>
                             </tr>
@@ -59,6 +61,18 @@
                                 <div class="mb-3">
                                     <label for="TxtTitle" class="form-label">Email</label>
                                     <asp:TextBox runat="server" ID="TxtEmail" ClientIDMode="Static" TextMode="Email" CssClass="form-control form-control-lg"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="TxtTitle" class="form-label">Dispositivo</label>
+                                    <asp:DropDownList runat="server" ID="ComboType1" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="TxtTitle" class="form-label">UID</label>
+                                    <asp:TextBox runat="server" ID="TxtUID" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -102,6 +116,8 @@
             $("#ValSummary").addClass("d-none");
             $("#TxtName").val("");
             $("#TxtEmail").val("");
+            $("#ComboType1").val("");
+            $("#TxtUID").val("");
             $("#TxtNote").val("");
             $("#TxtPassword").val("");
             $("#TxtPasswordRepeat").val("");
@@ -125,6 +141,17 @@
                 "data": "Name",
             }, {
                 "data": "Email",
+            }, {
+                "data": "UID",
+            }, {
+                "data": "TagType",
+                "render": function (data, type, row, meta) {
+                    if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
+                    else if (data == 2) return '<p class="text-danger">RFID</p>';
+                    else if (data == 3) return '<p class="text-warning">TAG</p>';
+                    else if (data == 4) return '<p class="text-white">NFC</p>';
+                    else return "";
+                }
             }, {
                 "data": "Note",
             }, {
@@ -162,6 +189,8 @@
             $("#ValSummary").addClass("d-none");
             $("#TxtName").val(row.Name);
             $("#TxtEmail").val(row.Email);
+            $("#ComboType1").val(row.TagType);
+            $("#TxtUID").val(row.UID);
             $("#TxtNote").val(row.Note);
             $("#TxtPassword").val("");
             $("#TxtPasswordRepeat").val("");

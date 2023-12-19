@@ -16,15 +16,26 @@ namespace NFC.Model
             Id = accessLog.Id;
             Detail = accessLog.AccessDetail;
             UserID = accessLog.UserID;
-            UserName = accessLog.User?.UserName ?? "";
-            UID = accessLog.User?.UID ?? "";
+            AdminID = accessLog.AdminID;
+            if (accessLog.Admin != null)
+            {
+                UserName = accessLog.Admin.Name;
+                UID = accessLog.Admin.UID;
+                AccessType = accessLog.Admin.TypeOfTag ?? 0;
+            }
+            else
+            {
+                UserName = accessLog.User?.UserName ?? "";
+                UID = accessLog.User?.UID ?? "";
+                AccessType = accessLog.User?.TypeOfTag ?? 0;
+            }
             PlaceID = accessLog.PlaceID;
             PlaceTitle = accessLog.Place?.PlaceTitle ?? "";
             AccessDate = accessLog.AccessDate?.ToString("dd/MM/yyyy HH.mm");
             Note = accessLog.Note;
             IsIn = accessLog.IsIn ?? false;
             IsOut = accessLog.IsOut ?? false;
-            AccessType = accessLog.User?.TypeOfTag ?? 0;
+            
         }
         public int Id
         {
@@ -35,6 +46,10 @@ namespace NFC.Model
             get; set;
         }
         public int? UserID
+        {
+            get; set;
+        }
+        public int? AdminID
         {
             get; set;
         }
