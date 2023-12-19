@@ -441,7 +441,7 @@
             var row = datatable.fnGetData($(this).closest('tr'));
 
             $("#PlaceModal").modal('show');
-            $(".modal-title").text("Invia msg via WhatsApp");
+            $(".modal-title").text("AGG. PLACE");
             $("#HfUserID").val(row.Id);
             $("#ValSummary1").addClass("d-none");
             $("#TxtDate").val("");
@@ -499,6 +499,7 @@
             var row = datatable.fnGetData($(this).closest('tr'));
 
             $("#MessageModal").modal('show');
+            $(".modal-title").text("Invia msg via WhatsApp");
             $("#HfUserID").val(row.Id);
             $("#ValidationSummary1").addClass("d-none");
             $("#TxtMsg").val("");
@@ -507,6 +508,7 @@
 
         $(".btn-msg").click(function () {
             $("#MessageModal").modal('show');
+            $(".modal-title").text("Invia msg via WhatsApp");
             $("#HfUserID").val("");
             $("#ValidationSummary1").addClass("d-none");
             $("#TxtMsg").val("");
