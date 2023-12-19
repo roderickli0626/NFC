@@ -6,26 +6,8 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ExpireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Association Name="User_PlaceAccess" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="Place_PlaceAccess" Member="Place" ThisKey="PlaceID" OtherKey="Id" Type="Place" IsForeignKey="true" DeleteRule="CASCADE" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Surname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Address" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="City" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Phone" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Mobile" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="TypeOfTag" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="IsEnabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="User_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="UserID" Type="PlaceAccess" />
-      <Association Name="User_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="UserID" Type="AccessLog" />
+      <Association Name="User_PlaceAccess" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Places" Member="Places">
@@ -65,6 +47,25 @@
       <Association Name="Admin_AccessLog" Member="Admin" ThisKey="AdminID" OtherKey="Id" Type="Admin" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Place_AccessLog" Member="Place" ThisKey="PlaceID" OtherKey="Id" Type="Place" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="User_AccessLog" Member="User" ThisKey="UserID" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Surname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Targa" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TypeOfTag" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsEnabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BOX" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_PlaceAccess" Member="PlaceAccesses" ThisKey="Id" OtherKey="UserID" Type="PlaceAccess" />
+      <Association Name="User_AccessLog" Member="AccessLogs" ThisKey="Id" OtherKey="UserID" Type="AccessLog" />
     </Type>
   </Table>
 </Database>

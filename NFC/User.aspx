@@ -26,11 +26,11 @@
                     <table class="table table-striped text-center mt-4" id="user-table">
                         <thead>
                             <tr>
-                                <th scope="col">Nr</th>
+                                <th scope="col">Box</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Cognome</th>
                                 <th scope="col">UID</th>
-                                <th scope="col">Indirizzo</th>
+                                <th scope="col">Targa</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Dispositivo</th>
                                 <th scope="col">Note</th>
@@ -86,8 +86,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Indirizzo</label>
-                                    <asp:TextBox runat="server" ID="TxtAddress" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
+                                    <label for="TxtTitle" class="form-label">Targa</label>
+                                    <asp:TextBox runat="server" ID="TxtTarga" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -108,10 +108,16 @@
                                     <asp:TextBox runat="server" ID="TxtMobile" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="TxtTitle" class="form-label">UID</label>
                                     <asp:TextBox runat="server" ID="TxtUID" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="TxtTitle" class="form-label">Box</label>
+                                    <asp:TextBox runat="server" ID="TxtBox" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -266,7 +272,7 @@
             $("#TxtSurname").val("");
             $("#TxtEmail").val("");
             $("#ComboType1").val("");
-            $("#TxtAddress").val("");
+            $("#TxtTarga").val("");
             $("#TxtCity").val("");
             $("#TxtPhone").val("");
             $("#TxtMobile").val("");
@@ -353,9 +359,7 @@
             "processing": true,
             "ordering": false,
             "columns": [{
-                "render": function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                }
+                "data": "BOX",
             }, {
                 "data": "Name",
             }, {
@@ -363,7 +367,7 @@
             }, {
                 "data": "UID",
             }, {
-                "data": "Address",
+                "data": "Targa",
             }, {
                 "data": "Email",
             }, {
@@ -427,7 +431,7 @@
             $("#TxtSurname").val(row.Surname);
             $("#TxtEmail").val(row.Email);
             $("#ComboType1").val(row.TagType);
-            $("#TxtAddress").val(row.Address);
+            $("#TxtTarga").val(row.Targa);
             $("#TxtCity").val(row.City);
             $("#TxtPhone").val(row.Phone);
             $("#TxtMobile").val(row.Mobile);

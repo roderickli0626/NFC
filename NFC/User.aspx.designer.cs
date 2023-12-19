@@ -141,13 +141,13 @@ namespace NFC
         protected global::System.Web.UI.WebControls.DropDownList ComboType1;
 
         /// <summary>
-        /// TxtAddress control.
+        /// TxtTarga control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtAddress;
+        protected global::System.Web.UI.WebControls.TextBox TxtTarga;
 
         /// <summary>
         /// TxtCity control.
@@ -184,6 +184,15 @@ namespace NFC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtUID;
+
+        /// <summary>
+        /// TxtBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBox;
 
         /// <summary>
         /// TxtNote control.

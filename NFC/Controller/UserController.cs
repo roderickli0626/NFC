@@ -54,7 +54,7 @@ namespace NFC.Controller
             return userDAO.Update(item);
         }
 
-        public bool SaveUser(int? userID, string name, string surname, string email, string address, string city, string phone, string mobile, int? type, string UID, string note)
+        public bool SaveUser(int? userID, string name, string surname, string email, string targa, string city, string phone, string mobile, int? type, string UID, string note, string box)
         {
             User user = userDAO.FindByID(userID ?? 0);
             if (user == null)
@@ -63,13 +63,14 @@ namespace NFC.Controller
                 user.UserName = name;
                 user.Surname = surname;
                 user.Email = email;
-                user.Address = address;
+                user.Targa = targa;
                 user.City = city;
                 user.Phone = phone;
                 user.Mobile = mobile;
                 user.TypeOfTag = type;
                 user.UID = UID;
                 user.Note = note;
+                user.BOX = box;
                 user.IsEnabled = true;
 
                 return userDAO.Insert(user);
@@ -79,13 +80,14 @@ namespace NFC.Controller
                 user.UserName = name;
                 user.Surname = surname;
                 user.Email = email;
-                user.Address = address;
+                user.Targa = targa;
                 user.City = city;
                 user.Phone = phone;
                 user.Mobile = mobile;
                 user.TypeOfTag = type;
                 user.UID = UID;
                 user.Note = note;
+                user.BOX = box;
 
                 return userDAO.Update(user);
             }

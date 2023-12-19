@@ -63,17 +63,18 @@ namespace NFC
             string name = TxtName.Text;
             string surname = TxtSurname.Text;
             string email = TxtEmail.Text;
-            string address = TxtAddress.Text;
+            string targa = TxtTarga.Text;
             string city = TxtCity.Text;
             string phone = TxtPhone.Text;
             string mobile = TxtMobile.Text;
             int? type = ControlUtil.GetSelectedValue(ComboType1);
             string UID = TxtUID.Text;
             string note = TxtNote.Text;
+            string box = TxtBox.Text;
 
             int? userID = ParseUtil.TryParseInt(HfUserID.Value);
 
-            bool success = new UserController().SaveUser(userID, name, surname, email, address, city, phone, mobile, type, UID, note);
+            bool success = new UserController().SaveUser(userID, name, surname, email, targa, city, phone, mobile, type, UID, note, box);
             if (success)
             {
                 Page.Response.Redirect(Page.Request.Url.ToString(), true);

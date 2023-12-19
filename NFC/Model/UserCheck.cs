@@ -18,12 +18,13 @@ namespace NFC.Model
             Surname = user.Surname;
             Mobile = user.Mobile;
             Phone = user.Phone;
-            Address = user.Address;
+            Targa = user.Targa;
             TagType = user.TypeOfTag ?? 0;
             City = user.City;
             Email = user.Email;
             UID = user.UID;
             Note = user.Note;
+            BOX = user.BOX;
             IsEnabled = user.IsEnabled ?? false;
         }
         public int Id
@@ -46,7 +47,7 @@ namespace NFC.Model
         {
             get; set;
         }
-        public string Address
+        public string Targa
         {
             get; set;
         }
@@ -67,6 +68,10 @@ namespace NFC.Model
             get; set;
         }
         public string Note
+        {
+            get; set;
+        }
+        public string BOX
         {
             get; set;
         }
