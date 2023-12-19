@@ -287,9 +287,8 @@ namespace NFC.Controller
                 string note = "";
                 if (access.ExpireDate < DateTime.Now)
                 {
-                    note = "ACCESSO SCADUTO";
+                    note = "<i style=\"color:red\">ACCESSO SCADUTO</i>";                        
                 }
-
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
                 log.UserID = user.Id;
@@ -304,7 +303,7 @@ namespace NFC.Controller
                 {
                     //Send Notification
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                    hubContext.Clients.All.receiveAccessErrorNotification("Expired UID Access Detected.");
+                    hubContext.Clients.All.receiveAccessErrorNotification("Tentativo di Accesso con TAG Scaduto");
 
                     return result;
                 }
@@ -312,7 +311,7 @@ namespace NFC.Controller
                 SendCommandToRelay(place);
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                hubContext1.Clients.All.receiveAccessNotification("New Access Detected.");
+                hubContext1.Clients.All.receiveAccessNotification("Accesso in corso");
 
                 return result;
             }
@@ -327,7 +326,7 @@ namespace NFC.Controller
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+                hubContext1.Clients.All.receiveAccessErrorNotification("Rilevato Accesso Non Autorizzato");
 
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
@@ -345,7 +344,7 @@ namespace NFC.Controller
                 {
                     log.UserID = user.Id;
                     log.PlaceID = place.Id;
-                    log.Note = "Not Allowed";
+                    log.Note = "Non consentito";
                 }
                 accessLogDAO.Insert(log);
 
@@ -357,13 +356,13 @@ namespace NFC.Controller
                 if (access == null)
                 {
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                    hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+                    hubContext.Clients.All.receiveAccessErrorNotification("Rilevato Accesso Non Autorizzato");
 
                     AccessLog failedlog = new AccessLog();
                     failedlog.AccessDate = DateTime.Now;
                     failedlog.UserID = user.Id;
                     failedlog.AccessDetail = "";
-                    failedlog.Note = "Not Allowed";
+                    failedlog.Note = "Non consentito";
                     failedlog.IsIn = false;
                     failedlog.IsOut = true;
                     failedlog.PlaceID = place.Id;
@@ -390,7 +389,7 @@ namespace NFC.Controller
                 if (access.ExpireDate < DateTime.Now)
                 {
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                    hubContext.Clients.All.receiveAccessErrorNotification("Expired UID Access Detected.");
+                    hubContext.Clients.All.receiveAccessErrorNotification("Tentativo di Accesso con TAG Scaduto");
 
                     return result;
                 }
@@ -398,7 +397,7 @@ namespace NFC.Controller
                 SendCommandToRelay(place);
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                hubContext1.Clients.All.receiveAccessNotification("New Access Detected.");
+                hubContext1.Clients.All.receiveAccessNotification("Accesso in corso");
 
                 return result;
             }

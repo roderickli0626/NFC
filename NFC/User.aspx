@@ -441,7 +441,7 @@
             var row = datatable.fnGetData($(this).closest('tr'));
 
             $("#PlaceModal").modal('show');
-            $(".modal-title").text("AGG. PLACE");
+            $(".modal-title").text("Invia msg via WhatsApp");
             $("#HfUserID").val(row.Id);
             $("#ValSummary1").addClass("d-none");
             $("#TxtDate").val("");

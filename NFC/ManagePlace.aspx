@@ -7,10 +7,10 @@
         <div class="row g-4">
             <div class="col-12" style="min-height: 100vh;">
                 <div class="bg-secondary rounded h-100 p-5">
-                    <h1 class="mb-4 text-center">Manage Places</h1>
+                    <h1 class="mb-4 text-center">Varchi</h1>
                     <div class="mt-5 row">
                         <div class="col-md-4">
-                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ Agg. Place</button>
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ Agg. Varco</button>
                         </div>
                         <div class="col-md-4 ms-auto">
                             <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
@@ -20,8 +20,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">Nr</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">IP Address</th>
+                                <th scope="col">Varco</th>
+                                <th scope="col">Indirizzo IP</th>
                                 <th scope="col">Nota</th>
                                 <th scope="col">Azione</th>
                             </tr>
@@ -37,7 +37,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content bg-secondary">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white">Manage Place</h4>
+                    <h4 class="modal-title text-white">Gestisci Varco</h4>
                 </div>
                 <div class="modal-body">
                     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
@@ -49,19 +49,19 @@
                             <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="Save Failed." Display="None"></asp:CustomValidator>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Place Title</label>
+                                    <label for="TxtTitle" class="form-label">Descrizione</label>
                                     <asp:TextBox runat="server" ID="TxtTitle" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">IP Address</label>
+                                    <label for="TxtTitle" class="form-label">Indirizzo IP</label>
                                     <asp:TextBox runat="server" ID="TxtIPAddress" ClientIDMode="Static" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="TxtTitle" class="form-label">Note</label>
+                                    <label for="TxtTitle" class="form-label">Nota</label>
                                     <asp:TextBox runat="server" ID="TxtNote" ClientIDMode="Static" TextMode="MultiLine" Rows="2" CssClass="form-control form-control-lg"></asp:TextBox>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
     <script>
         $(".btn-add").click(function () {
             $("#PlaceModal").modal('show');
-            $(".modal-title").text("AGG. PLACE");
+            $(".modal-title").text("AGG. VARCO");
             $("#HfPlaceID").val("");
             $("#ValidationSummary1").addClass("d-none");
             $("#TxtTitle").val("");
@@ -141,7 +141,7 @@
             var row = datatable.fnGetData($(this).closest('tr'));
 
             $("#PlaceModal").modal('show');
-            $(".modal-title").text("AGGIORNA PLACE");
+            $(".modal-title").text("AGGIORNA VARCO");
             $("#HfPlaceID").val(row.Id);
             $("#ValidationSummary1").addClass("d-none");
             $("#TxtTitle").val(row.Title);
