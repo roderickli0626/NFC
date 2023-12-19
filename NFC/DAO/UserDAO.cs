@@ -22,11 +22,21 @@ namespace NFC.DAO
         {
             return GetContext().Users.Where(g => g.UID == UID).FirstOrDefault();
         }
+        public User FindByBox(string box)
+        {
+            return GetContext().Users.Where(g => g.BOX == box).FirstOrDefault();
+        }
         public bool Insert(User user)
         {
             GetContext().Users.InsertOnSubmit(user);
             GetContext().SubmitChanges();
             return true;
+        }
+        public int Insert1(User user)
+        {
+            GetContext().Users.InsertOnSubmit(user);
+            GetContext().SubmitChanges();
+            return user.Id;
         }
         public bool Update(User user)
         {

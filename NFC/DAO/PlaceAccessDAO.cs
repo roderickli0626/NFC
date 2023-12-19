@@ -22,6 +22,10 @@ namespace NFC.DAO
         {
             return GetContext().PlaceAccesses.Where(g => g.UserID == userId).ToList();
         }
+        public PlaceAccess FindByUserAndPlace(int userId, int placeID)
+        {
+            return GetContext().PlaceAccesses.Where(g => g.UserID == userId && g.PlaceID == placeID).FirstOrDefault();
+        }
         public bool Insert(PlaceAccess place)
         {
             GetContext().PlaceAccesses.InsertOnSubmit(place);

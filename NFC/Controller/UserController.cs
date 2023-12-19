@@ -1,9 +1,12 @@
-﻿using NFC.DAO;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using NFC.DAO;
 using NFC.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
+using Twilio.Rest.Preview.Wireless.Sim;
 
 namespace NFC.Controller
 {
@@ -91,6 +94,122 @@ namespace NFC.Controller
 
                 return userDAO.Update(user);
             }
+        }
+
+        public bool ImportCSV(List<string[]> rows, Dictionary<int, string> headerPairs)
+        {
+            bool result = true;
+            List<Place> places = new PlaceDAO().FindAll();
+            PlaceAccessDAO placeAccessDAO = new PlaceAccessDAO();
+            for (int i = 1; i < rows.Count; i++)
+            {
+                string box = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Box").Key];
+                string code = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Code").Key];
+                User user = userDAO.FindByBox(box);
+                if (user == null)
+                {
+                    user = new User();
+                    user.UserName = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Nome").Key];
+                    user.Surname = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Cognome").Key];
+                    user.Targa = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Targa").Key];
+                    user.BOX = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Box").Key];
+                    user.Mobile = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Mobile").Key];
+                    user.IsEnabled = true;
+                    string eD = rows[i][headerPairs.FirstOrDefault(x => x.Value == "DataScadenza").Key];
+                    DateTime? expireDate = null;
+                    if (eD != "") expireDate = DateTime.ParseExact(eD, "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture);
+                    int userId = userDAO.Insert1(user);
+
+                    if (string.IsNullOrEmpty(code))
+                    {
+                        foreach(Place place in places)
+                        {
+                            PlaceAccess placeAccess = new PlaceAccess();
+                            placeAccess.PlaceID = place.Id;
+                            placeAccess.ExpireDate = expireDate;
+                            placeAccess.UserID = userId;
+                            placeAccessDAO.Insert(placeAccess);
+                        }
+                    }
+                    else if (code == "000")
+                    {
+                        foreach (Place place in places)
+                        {
+                            PlaceAccess placeAccess = new PlaceAccess();
+                            placeAccess.PlaceID = place.Id;
+                            placeAccess.UserID = userId;
+                            placeAccess.ExpireDate = DateTime.ParseExact("31/12/2199 00.00", "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture); ;
+                            placeAccessDAO.Insert(placeAccess);
+                        }
+                    }
+                    else
+                    {
+                        user.IsEnabled = false;
+                        user.Id = userId;
+                        userDAO.Update(user);
+                    }
+                }
+                else
+                {
+                    user.UserName = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Nome").Key];
+                    user.Surname = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Cognome").Key];
+                    user.Targa = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Targa").Key];
+                    user.BOX = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Box").Key];
+                    user.Mobile = rows[i][headerPairs.FirstOrDefault(x => x.Value == "Mobile").Key];
+                    string eD = rows[i][headerPairs.FirstOrDefault(x => x.Value == "DataScadenza").Key];
+                    DateTime? expireDate = null;
+                    if (eD != "") expireDate = DateTime.ParseExact(eD, "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture);
+
+                    result = result && userDAO.Update(user);
+
+                    if (string.IsNullOrEmpty(code))
+                    {
+                        foreach (Place place in places)
+                        {
+                            PlaceAccess placeAccess = placeAccessDAO.FindByUserAndPlace(user.Id, place.Id);
+                            if (placeAccess != null)
+                            {
+                                placeAccess.ExpireDate = expireDate;
+                                placeAccessDAO.Update(placeAccess);
+                            }
+                            else
+                            {
+                                placeAccess = new PlaceAccess();
+                                placeAccess.PlaceID = place.Id;
+                                placeAccess.ExpireDate = expireDate;
+                                placeAccess.UserID = user.Id;
+                                placeAccessDAO.Insert(placeAccess);
+                            }
+                        }
+                    }
+                    else if (code == "000")
+                    {
+                        foreach (Place place in places)
+                        {
+                            PlaceAccess placeAccess = placeAccessDAO.FindByUserAndPlace(user.Id, place.Id);
+                            if (placeAccess != null)
+                            {
+                                placeAccess.ExpireDate = DateTime.ParseExact("31/12/2199 00.00", "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture); ;
+                                placeAccessDAO.Update(placeAccess);
+                            }
+                            else
+                            {
+                                placeAccess = new PlaceAccess();
+                                placeAccess.PlaceID = place.Id;
+                                placeAccess.ExpireDate = DateTime.ParseExact("31/12/2199 00.00", "dd/MM/yyyy HH.mm", CultureInfo.InvariantCulture); ;
+                                placeAccess.UserID = user.Id;
+                                placeAccessDAO.Insert(placeAccess);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        user.IsEnabled = false;
+                        userDAO.Update(user);
+                    }
+                }
+            }
+            return result;
         }
     }
 }

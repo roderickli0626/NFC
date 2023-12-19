@@ -1,18 +1,23 @@
-﻿using NFC.Common;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.VisualBasic.FileIO;
+using NFC.Common;
 using NFC.Controller;
 using NFC.DAO;
 using NFC.Util;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.WebSockets;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using WhatsAppApi;
+using FieldType = Microsoft.VisualBasic.FileIO.FieldType;
 
 namespace NFC
 {
@@ -148,6 +153,68 @@ namespace NFC
             RestResponse response = await client.ExecuteAsync(request);
             var output = response.Content;
             Console.WriteLine(output);
+        }
+
+        protected void BtnImportUser_Click(object sender, EventArgs e)
+        {
+            if (!FileUploadCSV.HasFile)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Please select a file to import.');", true);
+                return;
+            }
+
+            byte[] data = FileUploadCSV.FileBytes;
+            List<string[]> rows = ReadCsvRows(data);
+            if (rows.Count < 1)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('The import file is empty.');", true);
+                return;
+            }
+            else if (rows.Count < 2)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('The import file has no data except headers.');", true);
+                return;
+            }
+
+            string[] headers = rows[0];
+            Dictionary<int, string> headerPairs = new Dictionary<int, string>();
+            for (int i = 0; i < headers.Length; i++)
+            {
+                headerPairs.Add(i, headers[i]);
+            }
+
+            bool result = new UserController().ImportCSV(rows, headerPairs);
+
+            if (result)
+            {
+                //string script = "alert('Successfully Imported!');";
+                //ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
+            }
+            else
+            {
+                string script = "alert('Importing Failed!');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
+            }
+        }
+
+        public static List<string[]> ReadCsvRows(byte[] content)
+        {
+            List<string[]> rows = new List<string[]>();
+            using (MemoryStream ms = new MemoryStream(content))
+            {
+                using (TextFieldParser parser = new TextFieldParser(ms))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    while (!parser.EndOfData)
+                    {
+                        //Processing row
+                        string[] fields = parser.ReadFields();
+                        rows.Add(fields);
+                    }
+                }
+            }
+            return rows;
         }
     }
 }

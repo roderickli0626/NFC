@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="User.aspx.cs" Inherits="NFC.User1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="Content/CSS/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" href="Content/CSS/toastr.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:HiddenField ID="HfUserID" runat="server" ClientIDMode="Static" />
@@ -13,15 +14,22 @@
                         <div class="col-md-3">
                             <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ AGG. CLIENTE</button>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <asp:DropDownList runat="server" ID="ComboType" CssClass="form-select form-select-lg" ClientIDMode="Static"></asp:DropDownList>
                         </div>
-                        <div class="col-md-3 ms-auto">
+                        <div class="col-md-2">
+                            <button class="btn btn-lg btn-primary w-100 mb-2 btn-csv">Import CSV</button>
+                            <asp:Button ID="BtnImportUser" ClientIDMode="Static" CssClass="d-none" runat="server" Text="Import..." OnClick="BtnImportUser_Click" OnClientClick="return onClickImport();" />
+                        </div>
+                        <div class="col-md-2 ms-auto">
                             <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="CERCA..."></asp:TextBox>
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-lg btn-primary w-100 mb-2 btn-msg">INVIA MESSAGGIO GLOBALE</button>
                         </div>
+                    </div>
+                    <div class="d-none">
+                        <asp:FileUpload ID="FileUploadCSV" runat="server" accept=".csv" ClientIDMode="Static"/>
                     </div>
                     <table class="table table-striped text-center mt-4" id="user-table">
                         <thead>
@@ -234,6 +242,25 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterPlaceHolder" runat="server">
     <script src="Scripts/JS/jquery.datetimepicker.full.min.js"></script>
+    <script src="Scripts/JS/toastr.min.js"></script>
+    <script>
+        $('.btn-csv').click(function () {
+            $('#FileUploadCSV').click();
+            return false;
+        });
+
+        $("#FileUploadCSV").change(function () {
+            $("#BtnImportUser").click();
+        });
+
+        function onClickImport() {
+            if (!$('#FileUploadCSV')[0].files.length) {
+                alert("Please choose csv file before import.");
+                return false;
+            }
+            return true;
+        }
+</script>
     <script>
         $.datetimepicker.setLocale('it');
 
@@ -278,6 +305,7 @@
             $("#TxtMobile").val("");
             $("#TxtUID").val("");
             $("#TxtNote").val("");
+            $("#TxtBox").val("");
 
             return false;
         });
@@ -437,6 +465,7 @@
             $("#TxtMobile").val(row.Mobile);
             $("#TxtUID").val(row.UID);
             $("#TxtNote").val(row.Note);
+            $("#TxtBox").val(row.BOX);
         });
 
         datatable.on('click', '.btn-place', function (e) {

@@ -33,6 +33,15 @@ namespace NFC
         protected global::System.Web.UI.WebControls.DropDownList ComboType;
 
         /// <summary>
+        /// BtnImportUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnImportUser;
+
+        /// <summary>
         /// TxtSearch control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace NFC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtSearch;
+
+        /// <summary>
+        /// FileUploadCSV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadCSV;
 
         /// <summary>
         /// ScriptManager control.
