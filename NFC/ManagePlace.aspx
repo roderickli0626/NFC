@@ -13,7 +13,7 @@
                             <button class="btn btn-lg btn-primary w-100 mb-2 btn-add">+ Agg. Varco</button>
                         </div>
                         <div class="col-md-4 ms-auto">
-                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="SEARCH..."></asp:TextBox>
+                            <asp:TextBox runat="server" ID="TxtSearch" ClientIDMode="Static" CssClass="form-control form-control-lg w-100" placeholder="CERCA..."></asp:TextBox>
                         </div>
                     </div>
                     <table class="table table-striped text-center mt-4" id="place-table">

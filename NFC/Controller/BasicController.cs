@@ -248,7 +248,7 @@ namespace NFC.Controller
                 log.AdminID = admin.Id;
                 log.IsIn = true;
                 log.IsOut = false;
-                log.Note = "<i style=\"color:white\">Access STAFF</i>";
+                log.Note = "<i style=\"color:white\">Accesso STAFF</i>";
                 if (place != null)
                 {
                     log.PlaceID = place.Id;
@@ -262,7 +262,7 @@ namespace NFC.Controller
             {
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                hubContext1.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+                hubContext1.Clients.All.receiveAccessErrorNotification("Rilevato accesso non autorizzato");
 
                 AccessLog log = new AccessLog();
                 log.AccessDate = DateTime.Now;
@@ -274,13 +274,13 @@ namespace NFC.Controller
                 {
                     if (user != null) log.UserID = user.Id;
                     if (place != null) log.PlaceID = place.Id;
-                    log.Note = "Unathorized Access";
+                    log.Note = "Accesso NON autorizzato";
                 }
                 else
                 {
                     log.UserID = user.Id;
                     log.PlaceID = place.Id;
-                    log.Note = "<i style=\"color:red\">Access Blocked</i>";
+                    log.Note = "<i style=\"color:red\">Accesso Bloccato</i>";
                 }
                 accessLogDAO.Insert(log);
 
@@ -293,13 +293,13 @@ namespace NFC.Controller
                 {
                     //Send Notification
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
-                    hubContext.Clients.All.receiveAccessErrorNotification("UnAuthoried Access Detected.");
+                    hubContext.Clients.All.receiveAccessErrorNotification("Rilevato accesso non autorizzato");
 
                     AccessLog failedlog = new AccessLog();
                     failedlog.AccessDate = DateTime.Now;
                     failedlog.UserID = user.Id;
                     failedlog.AccessDetail = "";
-                    failedlog.Note = "<i style=\"color:red\">Access Blocked</i>";
+                    failedlog.Note = "<i style=\"color:red\">Accesso Bloccato</i>";
                     failedlog.IsIn = true;
                     failedlog.IsOut = false;
                     failedlog.PlaceID = place.Id;
@@ -308,7 +308,7 @@ namespace NFC.Controller
                     return result;
                 }
 
-                string note = "<i style=\"color:green\">Access Enabled</i>";
+                string note = "<i style=\"color:green\">Accesso Abilitato</i>";
                 if (access.ExpireDate < DateTime.Now)
                 {
                     note = "<i style=\"color:yellow\">ACCESSO SCADUTO</i>";                        
@@ -358,7 +358,7 @@ namespace NFC.Controller
                 log.AdminID = admin.Id;
                 log.IsIn = false;
                 log.IsOut = true;
-                log.Note = "<i style=\"color:white\">Access STAFF</i>";
+                log.Note = "<i style=\"color:white\">Accesso STAFF</i>";
                 if (place != null)
                 {
                     log.PlaceID = place.Id;
@@ -384,13 +384,13 @@ namespace NFC.Controller
                 {
                     if (user != null) log.UserID = user.Id;
                     if (place != null) log.PlaceID = place.Id;
-                    log.Note = "Unathorized Access";
+                    log.Note = "Accesso NON autorizzato";
                 }
                 else
                 {
                     log.UserID = user.Id;
                     log.PlaceID = place.Id;
-                    log.Note = "<i style=\"color:red\">Access Blocked</i>";
+                    log.Note = "<i style=\"color:red\">Accesso Bloccato</i>";
                 }
                 accessLogDAO.Insert(log);
 
@@ -408,7 +408,7 @@ namespace NFC.Controller
                     failedlog.AccessDate = DateTime.Now;
                     failedlog.UserID = user.Id;
                     failedlog.AccessDetail = "";
-                    failedlog.Note = "<i style=\"color:red\">Access Blocked</i>";
+                    failedlog.Note = "<i style=\"color:red\">Accesso Blocccato</i>";
                     failedlog.IsIn = false;
                     failedlog.IsOut = true;
                     failedlog.PlaceID = place.Id;
@@ -417,7 +417,7 @@ namespace NFC.Controller
                     return result;
                 }
 
-                string note = "<i style=\"color:green\">Access Enabled</i>";
+                string note = "<i style=\"color:green\">Accesso Abilitato</i>";
                 if (access.ExpireDate < DateTime.Now)
                 {
                     note = "<i style=\"color:yellow\">ACCESSO SCADUTO</i>";
