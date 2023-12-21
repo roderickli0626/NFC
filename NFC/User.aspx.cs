@@ -187,8 +187,8 @@ namespace NFC
 
             if (result)
             {
-                //string script = "alert('Successfully Imported!');";
-                //ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
+                string script = "alert('Successfully Imported!');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", script, true);
             }
             else
             {
