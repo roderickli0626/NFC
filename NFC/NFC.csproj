@@ -349,7 +349,7 @@
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="ManagePlace.aspx" />
-    <Content Include="Orbit.aspx" />
+    <Content Include="ORBI.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -546,12 +546,12 @@
     <Compile Include="Model\ProcResult.cs" />
     <Compile Include="Model\SearchResult.cs" />
     <Compile Include="Model\UserCheck.cs" />
-    <Compile Include="Orbit.aspx.cs">
-      <DependentUpon>Orbit.aspx</DependentUpon>
+    <Compile Include="ORBI.aspx.cs">
+      <DependentUpon>ORBI.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Orbit.aspx.designer.cs">
-      <DependentUpon>Orbit.aspx</DependentUpon>
+    <Compile Include="ORBI.aspx.designer.cs">
+      <DependentUpon>ORBI.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page.Master.cs">
       <DependentUpon>Page.Master</DependentUpon>
