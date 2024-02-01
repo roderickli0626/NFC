@@ -14,8 +14,11 @@ namespace NFC
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string UID = Request.Params["UID"];
-            string PlaceIP = Request.Params["PlaceIP"];
+            string CMD = Request.Params["cmd"];
+            string UID = Request.Params["uid"];
+            string PlaceIP = Request.Params["id"];
+            string MD5 = Request.Params["md5"];
+
             int outIn = ParseUtil.TryParseInt(Request.Params["OutIn"]) ?? 1;
 
             BasicController basicController = new BasicController();
