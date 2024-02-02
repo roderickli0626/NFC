@@ -31,6 +31,7 @@ namespace NFC
             else
             {
                 bool success = basicController.ReadOutNFC(UID, PlaceIP);
+                bool success1 = basicController.ReadOutNFC(MAC, PlaceIP);
             }
         }
     }
