@@ -18,6 +18,7 @@ namespace NFC
             string UID = Request.Params["uid"];
             string PlaceIP = Request.Params["id"];
             string MD5 = Request.Params["md5"];
+            string MAC = Request.Params["mac"];
 
             int outIn = ParseUtil.TryParseInt(Request.Params["OutIn"]) ?? 1;
 
@@ -25,6 +26,7 @@ namespace NFC
             if (outIn == 1)
             {
                 bool success = basicController.ReadInNFC(UID, PlaceIP);
+                bool success1 = basicController.ReadInNFC(MAC, PlaceIP);
             }
             else
             {
