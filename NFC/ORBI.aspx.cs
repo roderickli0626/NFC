@@ -26,13 +26,19 @@ namespace NFC
             BasicController basicController = new BasicController();
             if (outIn == 1)
             {
-                bool success = basicController.ReadInNFC(UID, PlaceIP);
-                bool success1 = basicController.ReadInNFC(MAC, PlaceIP);
+                if (CMD == "CO")
+                {
+                    bool success = basicController.ReadInNFC(UID, PlaceIP);
+                    bool success1 = basicController.ReadInNFC(MAC, PlaceIP);
+                }
             }
             else
             {
-                bool success = basicController.ReadOutNFC(UID, PlaceIP);
-                bool success1 = basicController.ReadOutNFC(MAC, PlaceIP);
+                if (CMD == "CO")
+                {
+                    bool success = basicController.ReadOutNFC(UID, PlaceIP);
+                    bool success1 = basicController.ReadOutNFC(MAC, PlaceIP);
+                }
             }
         }
     }
