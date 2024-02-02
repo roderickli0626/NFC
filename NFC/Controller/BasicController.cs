@@ -252,7 +252,7 @@ namespace NFC.Controller
                 if (place != null)
                 {
                     log.PlaceID = place.Id;
-                    SendCommandToRelay(place);
+                    // SendCommandToRelay(place);
                 }
                 return accessLogDAO.Insert(log);
             }
@@ -362,7 +362,7 @@ namespace NFC.Controller
                 if (place != null)
                 {
                     log.PlaceID = place.Id;
-                    SendCommandToRelay(place);
+                    // SendCommandToRelay(place);
                 }
                 return accessLogDAO.Insert(log);
             }
