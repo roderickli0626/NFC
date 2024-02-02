@@ -14,6 +14,7 @@ namespace NFC
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string testRequest = Request.Url.ToString();
             string CMD = Request.Params["cmd"];
             string UID = Request.Params["uid"];
             string PlaceIP = Request.Params["id"];
