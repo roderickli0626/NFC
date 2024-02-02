@@ -29,7 +29,6 @@ namespace NFC
                 if (CMD == "CO")
                 {
                     bool success = basicController.ReadInNFC(UID, PlaceIP);
-                    bool success1 = basicController.ReadInNFC(MAC, PlaceIP);
                 }
             }
             else
@@ -37,7 +36,6 @@ namespace NFC
                 if (CMD == "CO")
                 {
                     bool success = basicController.ReadOutNFC(UID, PlaceIP);
-                    bool success1 = basicController.ReadOutNFC(MAC, PlaceIP);
                 }
             }
         }
