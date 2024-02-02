@@ -26,6 +26,7 @@ namespace NFC.Model
             else
             {
                 UserName = accessLog.User?.UserName ?? "";
+                SurName = accessLog.User?.Surname ?? "";
                 UID = accessLog.User?.UID ?? "";
                 AccessType = accessLog.User?.TypeOfTag ?? 0;
             }
@@ -54,6 +55,10 @@ namespace NFC.Model
             get; set;
         }
         public string UserName
+        {
+            get; set;
+        }
+        public string SurName
         {
             get; set;
         }

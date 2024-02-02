@@ -28,11 +28,12 @@
                             <tr>
                                 <th scope="col">Nr.</th>
                                 <th scope="col">UID</th>
-                                <th scope="col">Nominativo</th>
+                                <th scope="col">Cognome</th>
+                                <%--<th scope="col">Nominativo</th>--%>
                                 <th scope="col">Data</th>
                                 <th scope="col">Varco</th>
                                 <th scope="col">Dispositivo</th>
-                                <th scope="col">In/Out</th>
+                                <%--<th scope="col">In/Out</th>--%>
                                 <th scope="col">Nota</th>
                                 <th scope="col">Azione</th>
                             </tr>
@@ -90,26 +91,28 @@
             }, {
                 "data": "UID",
             }, {
-                "data": "UserName",
+                "data": "SurName",
             }, {
                 "data": "AccessDate",
             }, {
                 "data": "PlaceTitle",
-            }, {
-                "data": "AccessType",
-                "render": function (data, type, row, meta) {
-                    if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
-                    else if (data == 2) return '<p class="text-danger">RFID</p>';
-                    else if (data == 3) return '<p class="text-warning">TAG</p>';
-                    else if (data == 4) return '<p class="text-white">NFC</p>';
-                    else return "";
-                }
-            }, {
-                "render": function (data, type, row, meta) {
-                    if (row.IsIn) return "In";
-                    else return "Out";
-                }
-            }, {
+                }, {
+                    "data": "AccessType",
+                    "render": function (data, type, row, meta) {
+                        if (data == 1) return '<p class="text-success">TELECOMANDO</p>';
+                        else if (data == 2) return '<p class="text-danger">RFID</p>';
+                        else if (data == 3) return '<p class="text-warning">TAG</p>';
+                        else if (data == 4) return '<p class="text-white">NFC</p>';
+                        else return "";
+                    }
+                },
+            //}, {
+            //    "render": function (data, type, row, meta) {
+            //        if (row.IsIn) return "In";
+            //        else return "Out";
+            //    }
+                //}, {
+            {
                 "data": "Note",
             }, {
                 "data": null,
