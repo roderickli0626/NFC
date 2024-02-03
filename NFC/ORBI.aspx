@@ -1,3 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ORBI.aspx.cs" Inherits="NFC.Orbit" %>
+<html>
+    <body>
+        <ORBIT>
+            BEEP=1;
+        </ORBIT>
+    </body>
+</html>
 
-BEEP=1  GRNT=05
