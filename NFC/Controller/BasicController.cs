@@ -462,7 +462,7 @@ namespace NFC.Controller
                 {
                     var content = new StringContent("open " + place.PlaceTitle, Encoding.UTF8, "text/plain");
                     //var response = client.PostAsync($"http://{relayIpAddress}/command", content).Result;
-                    var response = client.PostAsync($"http://ftp:ftp@79.32.32.96:7701/protect/toggle.cgi?toggle=A", content).Result;
+                    var response = client.GetAsync($"http://ftp:ftp@79.32.32.96:7701/protect/toggle.cgi?toggle=A").Result;
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
