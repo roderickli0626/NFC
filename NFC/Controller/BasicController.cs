@@ -332,7 +332,7 @@ namespace NFC.Controller
                     return result;
                 }
 
-                // SendCommandToRelay(place);
+                SendCommandToRelay(place);
                 //Send Notification
                 var hubContext1 = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
                 hubContext1.Clients.All.receiveAccessNotification("Accesso in corso");
