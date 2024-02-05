@@ -449,24 +449,23 @@ namespace NFC.Controller
             }
         }
 
-        private bool SendCommandToRelay(Place place)
+        private async void SendCommandToRelay(Place place)
         {
             try
             {
                 string relayIpAddress = place.IPAddress;
-                //string relayIpAddress = "192.168.0.100"; // Replace with actual IP address of the relay device
-
-                if (relayIpAddress == null) { return false; }
+                //if (relayIpAddress == null) { return false; }
 
                 using (var client = new HttpClient())
                 {
                     var content = new StringContent("open " + place.PlaceTitle, Encoding.UTF8, "text/plain");
-                    //var response = client.PostAsync($"http://{relayIpAddress}/command", content).Result;
-                    var response = client.GetAsync($"http://ftp:ftp@79.32.32.96:7701/protect/toggle.cgi?toggle=A").Result;
+                    // Set the credentials
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("ftp:ftp")));
+                    var response = await client.GetAsync("http://79.32.32.96:7701/protect/toggle.cgi?toggle=A");
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        return true;
+                        //return true;
                     }
                 }
             }
@@ -476,7 +475,7 @@ namespace NFC.Controller
                 Console.WriteLine(ex.Message);
             }
 
-            return false;
+            //return false;
         }
 
         public bool SetGlobalSetting(bool IsOpen)
