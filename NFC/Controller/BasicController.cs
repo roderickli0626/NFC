@@ -252,7 +252,7 @@ namespace NFC.Controller
                 if (place != null)
                 {
                     log.PlaceID = place.Id;
-                    // SendCommandToRelay(place);
+                    SendCommandToRelay(place);
                 }
                 return accessLogDAO.Insert(log);
             }
@@ -461,7 +461,8 @@ namespace NFC.Controller
                 using (var client = new HttpClient())
                 {
                     var content = new StringContent("open " + place.PlaceTitle, Encoding.UTF8, "text/plain");
-                    var response = client.PostAsync($"http://{relayIpAddress}/command", content).Result;
+                    //var response = client.PostAsync($"http://{relayIpAddress}/command", content).Result;
+                    var response = client.PostAsync($"http://ftp:ftp@79.32.32.96:7701/protect/toggle.cgi?toggle=A", content).Result;
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
