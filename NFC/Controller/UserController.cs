@@ -59,6 +59,9 @@ namespace NFC.Controller
 
         public bool SaveUser(int? userID, string name, string surname, string email, string targa, string city, string phone, string mobile, int? type, string UID, string note, string box)
         {
+            User testUser = userDAO.FindByUID(UID);
+            if (testUser != null) return false;
+
             User user = userDAO.FindByID(userID ?? 0);
             if (user == null)
             {
