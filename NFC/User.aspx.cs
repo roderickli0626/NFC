@@ -86,6 +86,7 @@ namespace NFC
             }
             else
             {
+                ServerValidator.ErrorMessage = "UID già registrato";
                 ServerValidator.IsValid = false;
                 return;
             }
