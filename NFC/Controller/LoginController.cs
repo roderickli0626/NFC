@@ -27,9 +27,22 @@ namespace NFC.Controller
             string SuperAdminEmail = System.Configuration.ConfigurationManager.AppSettings["AdminUserName"];
             string SuperAdminPass = System.Configuration.ConfigurationManager.AppSettings["AdminPassword"];
 
+            string DoorManAdminEmail = System.Configuration.ConfigurationManager.AppSettings["DoorManUserName"];
+            string DoorManAdminPass = System.Configuration.ConfigurationManager.AppSettings["DoorManPassword"];
+
             if (email.CompareTo(SuperAdminEmail) == 0 && pass.UnEncrypted.CompareTo(SuperAdminPass) == 0)
             {
                 new SessionController().SetSuperAdmin();
+                new SessionController().SetCurrentUserId(0);
+                new SessionController().SetCurrentUserEmail(email);
+                new SessionController().SetPassword(pass);
+                new SessionController().SetTimeout(60 * 24 * 7 * 2);
+                return LoginCode.Success;
+            }
+
+            if (email.CompareTo(DoorManAdminEmail) == 0 && pass.UnEncrypted.CompareTo(DoorManAdminPass) == 0)
+            {
+                new SessionController().SetDoorMan();
                 new SessionController().SetCurrentUserId(0);
                 new SessionController().SetCurrentUserEmail(email);
                 new SessionController().SetPassword(pass);
@@ -62,6 +75,10 @@ namespace NFC.Controller
         public bool IsAdminLoggedIn()
         {
             return new SessionController().GetAdmin() == true;
+        }
+        public bool IsDoorManLoggedIn()
+        {
+            return new SessionController().GetDoorMan() == true;
         }
         public Admin GetCurrentUserAccount()
         {

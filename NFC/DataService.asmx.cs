@@ -62,7 +62,7 @@ namespace NFC
         public void FindAccessLogs(int draw, int start, int length, string searchVal, int type, string searchFrom, string searchTo)
         {
             Admin admin = loginSystem.GetCurrentUserAccount();
-            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null)) return;
+            if (!loginSystem.IsSuperAdminLoggedIn() && !loginSystem.IsDoorManLoggedIn() && (admin == null)) return;
 
             DateTime? from = null;
             DateTime? to = null;

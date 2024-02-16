@@ -12,6 +12,7 @@ namespace NFC.Controller
         public static string CURRENT_USER_EMAIL = "CurrentUserEmail";
         public static string SUPERADMIN = "SuperAdmin";
         public static string ADMIN = "Admin";
+        public static string DOORMAN = "DoorMan";
 
         public void RemoveAll()
         {
@@ -24,6 +25,10 @@ namespace NFC.Controller
         public void SetAdmin()
         {
             HttpContext.Current.Session.Add(ADMIN, "true");
+        }
+        public void SetDoorMan()
+        {
+            HttpContext.Current.Session.Add(DOORMAN, "true");
         }
 
         public void SetPassword(EncryptedPass pass)
@@ -54,6 +59,13 @@ namespace NFC.Controller
             object IsAdmin = HttpContext.Current.Session[ADMIN];
             if (IsAdmin == null) return null;
             return IsAdmin.ToString() == "true";
+        }
+        public bool? GetDoorMan()
+        {
+            if (IsInvalidSession()) return null;
+            object IsDoorMan = HttpContext.Current.Session[DOORMAN];
+            if (IsDoorMan == null) return null;
+            return IsDoorMan.ToString() == "true";
         }
         public int? GetCurrentUserId()
         {

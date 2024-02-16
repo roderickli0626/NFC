@@ -38,7 +38,14 @@ namespace NFC
 
             if (loginStatus == LoginCode.Success)
             {
-                Response.Redirect("~/Dashboard.aspx");
+                if (loginSystem.IsDoorManLoggedIn())
+                {
+                    Response.Redirect("~/AccessLog.aspx");
+                }
+                else
+                {
+                    Response.Redirect("~/Dashboard.aspx");
+                }
             }
             else
             {

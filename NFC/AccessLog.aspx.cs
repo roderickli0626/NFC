@@ -16,7 +16,7 @@ namespace NFC
         protected void Page_Load(object sender, EventArgs e)
         {
             admin = loginSystem.GetCurrentUserAccount();
-            if (!loginSystem.IsSuperAdminLoggedIn() && (admin == null))
+            if (!loginSystem.IsSuperAdminLoggedIn() && !loginSystem.IsDoorManLoggedIn() && (admin == null))
             {
                 Response.Redirect("~/Login.aspx");
                 return;

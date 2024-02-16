@@ -24,6 +24,15 @@ namespace NFC
                 UserName.InnerText = "Super Admin";
                 NavUserName.InnerText = "Super Admin";
             }
+            else if (loginSystem.IsDoorManLoggedIn())
+            {
+                sidebar.Visible = false;
+                contentPart.Attributes["class"] += " mx-auto";
+                AdminName.InnerText = "DoorMan";
+                SubName.InnerText = "DoorMan";
+                UserName.InnerText = "DoorMan";
+                NavUserName.InnerText = "DoorMan";
+            }
             else
             {
                 liAdmin.Visible = false;
